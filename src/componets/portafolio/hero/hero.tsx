@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import profile from "../assets/profile.jpg";
 
 const Hero: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -57,7 +56,11 @@ const Hero: React.FC = () => {
 
                             {/* Photo container */}
                             <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-cyan-500/30 group-hover:border-cyan-400/50 transition-all duration-300 group-hover:scale-105">
-                                <img src={profile} alt="Foto de perfil" className="w-full h-full object-cover" />
+                                <img
+                                    src="/profile.jpg"
+                                    alt={t("name")}
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
                         </div>
                     </div>
@@ -110,7 +113,7 @@ const Hero: React.FC = () => {
                     {/* Social Links (Optional) */}
                     <div className="mt-16 flex items-center justify-center gap-6">
                         <a
-                            href="https://github.com/luarmoro123"
+                            href="https://github.com/tuusuario"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-3 text-gray-400 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-all duration-300"
@@ -122,7 +125,7 @@ const Hero: React.FC = () => {
                         </a>
 
                         <a
-                            href="https://www.linkedin.com/in/luis-arturo-morales-robles-938630379/"
+                            href="https://linkedin.com/in/tuusuario"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-3 text-gray-400 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-all duration-300"
@@ -133,6 +136,15 @@ const Hero: React.FC = () => {
                             </svg>
                         </a>
 
+                        <a
+                            href="mailto:tu@email.com"
+                            className="p-3 text-gray-400 hover:text-cyan-400 hover:bg-white/5 rounded-lg transition-all duration-300"
+                            aria-label="Email"
+                        >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
             </div>
