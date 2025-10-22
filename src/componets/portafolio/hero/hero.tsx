@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import profile from "../assets/profile.jpg";
 
 const Hero: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -56,11 +57,7 @@ const Hero: React.FC = () => {
 
                             {/* Photo container */}
                             <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-cyan-500/30 group-hover:border-cyan-400/50 transition-all duration-300 group-hover:scale-105">
-                                <img
-                                    src="/src/assets/profile.jpg"
-                                    alt={t("name")}
-                                    className="w-full h-full object-cover"
-                                />
+                                <img src={profile} alt="Foto de perfil" className="w-full h-full object-cover" />
                             </div>
                         </div>
                     </div>
