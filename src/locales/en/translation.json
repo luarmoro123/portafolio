@@ -1,16 +1,18 @@
 {
-  "name": "First Last",
-  "title": "Front-End Web Developer",
-  "heroTitle": "Hello — I'm {{name}}",
-  "heroDesc": "I'm a Front-End Developer focused on creating responsive and accessible interfaces.",
-  "about": "Brief personal and academic description. Example: IT Engineering student with a passion for web development, best practices, and security.",
+  "name": "Luis Morales",
+  "title": "Mobile Application Developer",
+  "heroTitle": "Hello — I'm Luis",
+  "heroDesc": "I'm a hybrid mobile application developer.",
+  "about": "I'm an Information Engineering and Digital Innovation student focused on hybrid mobile application development with React Native",
   "nav": {
+    "label": "Main navigation",
     "home": "Home",
     "about": "About",
     "skills": "Skills",
     "projects": "Projects",
     "certifications": "Certifications",
     "contact": "Contact",
-    "cv": "Download CV"
+    "cv": "Download CV",
+    "language": "Language"
   }
 }

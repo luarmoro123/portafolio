@@ -1,16 +1,18 @@
 {
-  "name": "Nombre Apellido",
-  "title": "Desarrollador Web Front-End",
-  "heroTitle": "Hola — Soy {{name}}",
-  "heroDesc": "Soy Desarrollador Web especializado en Front-End. Construyo interfaces accesibles y responsivas.",
-  "about": "Breve descripción personal y académica. Ej.: Estudiante de Ingeniería en TI con interés en desarrollo web, buenas prácticas y seguridad.",
+  "name": "Luis Morales",
+  "title": "Desarrollador de aplicaciones móviles",
+  "heroTitle": "Hola — Soy Luis",
+  "heroDesc": "Soy Desarrollador de aplicaciones móviles híbridas.",
+  "about": "Soy un estudiante de ingeniería de la información e innovación digital enfocado en el desarrollo de aplicaciones móviles híbridas con React Native",
   "nav": {
+    "label": "Navegación principal",
     "home": "Inicio",
     "about": "Sobre mí",
     "skills": "Habilidades",
     "projects": "Proyectos",
     "certifications": "Certificaciones",
     "contact": "Contacto",
-    "cv": "Descargar CV"
+    "cv": "Descargar CV",
+    "language": "Idioma"
   }
 }
