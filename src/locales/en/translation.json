@@ -1,18 +1,56 @@
 {
   "name": "Luis Morales",
   "title": "Mobile Application Developer",
-  "heroTitle": "Hello — I'm Luis",
-  "heroDesc": "I'm a React Native and Kotlin Developer.",
-  "about": "I'm an Information Engineering and Digital Innovation student focused on hybrid mobile application development with React Native",
+  "heroTitle": "Hi — I'm Luis",
+  "heroDesc": "Developer specialized in React Native and Kotlin",
+  "aboutIntro": "I’m an Information Technology and Digital Innovation Engineering student, focused on hybrid mobile app development using React Native.",
   "nav": {
     "label": "Main navigation",
     "home": "Home",
-    "about": "About me",
+    "about": "About Me",
     "skills": "Skills",
     "projects": "Projects",
     "certifications": "Certifications",
     "contact": "Contact",
     "cv": "Download CV",
     "language": "Language"
+  },
+  "about": {
+    "description": "I’m passionate about creating exceptional user experiences and innovative technological solutions that make a real impact. I specialize in turning ideas into functional, attractive, and optimized applications.",
+    "stats": {
+      "experience": "Years of Experience",
+      "projects": "Completed Projects",
+      "technologies": "Technologies"
+    },
+    "highlights": {
+      "mobile": {
+        "title": "Mobile Development",
+        "desc": "Hybrid apps built with React Native"
+      },
+      "innovation": {
+        "title": "Innovation",
+        "desc": "Creative and efficient solutions"
+      },
+      "performance": {
+        "title": "Performance",
+        "desc": "Fast and optimized applications"
+      }
+    }
+  },
+  "cta": {
+    "contact": "Contact Me"
+  },
+  "skills": {
+    "subtitle": "Technologies and tools I master",
+    "categories": {
+      "mobile": "Mobile Development",
+      "web": "Web Development"
+    },
+    "learning": "Always learning and improving my skills",
+    "badges": {
+      "production": "Production Ready",
+      "performance": "High Performance",
+      "bestpractices": "Best Practices"
+    }
   }
 }

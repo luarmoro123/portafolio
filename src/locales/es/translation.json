@@ -1,9 +1,9 @@
 {
   "name": "Luis Morales",
-  "title": "Desarrollador de aplicaciones móviles",
+  "title": "Desarrollador de Aplicaciones Móviles",
   "heroTitle": "Hola — Soy Luis",
-  "heroDesc": "Soy Desarrollador en React Native y Kotlin ",
-  "about": "Soy un estudiante de ingeniería de la información e innovación digital enfocado en el desarrollo de aplicaciones móviles híbridas con React Native",
+  "heroDesc": "Desarrollador especializado en React Native y Kotlin",
+  "aboutIntro": "Soy estudiante de Ingeniería en Tecnologías de la Información e Innovación Digital, enfocado en el desarrollo de aplicaciones móviles híbridas con React Native.",
   "nav": {
     "label": "Navegación principal",
     "home": "Inicio",
@@ -14,5 +14,43 @@
     "contact": "Contacto",
     "cv": "Descargar CV",
     "language": "Idioma"
+  },
+  "about": {
+    "description": "Me apasiona crear experiencias de usuario excepcionales y soluciones tecnológicas innovadoras que generen impacto real. Transformo ideas en aplicaciones funcionales, atractivas y optimizadas.",
+    "stats": {
+      "experience": "Años de Experiencia",
+      "projects": "Proyectos Completados",
+      "technologies": "Tecnologías"
+    },
+    "highlights": {
+      "mobile": {
+        "title": "Desarrollo Móvil",
+        "desc": "Aplicaciones híbridas con React Native"
+      },
+      "innovation": {
+        "title": "Innovación",
+        "desc": "Soluciones creativas y eficientes"
+      },
+      "performance": {
+        "title": "Rendimiento",
+        "desc": "Aplicaciones rápidas y optimizadas"
+      }
+    }
+  },
+  "cta": {
+    "contact": "Contáctame"
+  },
+  "skills": {
+    "subtitle": "Tecnologías y herramientas que domino",
+    "categories": {
+      "mobile": "Desarrollo Móvil",
+      "web": "Desarrollo Web"
+    },
+    "learning": "Siempre aprendiendo y perfeccionando mis habilidades",
+    "badges": {
+      "production": "Listo para producción",
+      "performance": "Alto rendimiento",
+      "bestpractices": "Mejores prácticas"
+    }
   }
 }

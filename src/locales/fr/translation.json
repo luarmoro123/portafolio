@@ -1,9 +1,9 @@
 {
   "name": "Luis Morales",
-  "title": "Développeur d'applications mobiles",
+  "title": "Développeur d’Applications Mobiles",
   "heroTitle": "Bonjour — Je suis Luis",
-  "heroDesc": "Je suis un développeur React Native et Kotlin.",
-  "about": "Je suis étudiant en ingénierie de l'information et innovation numérique, spécialisé dans le développement d'applications mobiles hybrides avec React Native",
+  "heroDesc": "Développeur spécialisé en React Native et Kotlin",
+  "aboutIntro": "Je suis étudiant en ingénierie des technologies de l'information et de l'innovation numérique, spécialisé dans le développement d'applications mobiles hybrides avec React Native.",
   "nav": {
     "label": "Navigation principale",
     "home": "Accueil",
@@ -12,7 +12,45 @@
     "projects": "Projets",
     "certifications": "Certifications",
     "contact": "Contact",
-    "cv": "Télécharger CV",
+    "cv": "Télécharger le CV",
     "language": "Langue"
+  },
+  "about": {
+    "description": "Je suis passionné par la création d'expériences utilisateur exceptionnelles et de solutions technologiques innovantes ayant un véritable impact. Je transforme les idées en applications fonctionnelles, attrayantes et optimisées.",
+    "stats": {
+      "experience": "Années d’Expérience",
+      "projects": "Projets Réalisés",
+      "technologies": "Technologies"
+    },
+    "highlights": {
+      "mobile": {
+        "title": "Développement Mobile",
+        "desc": "Applications hybrides avec React Native"
+      },
+      "innovation": {
+        "title": "Innovation",
+        "desc": "Solutions créatives et efficaces"
+      },
+      "performance": {
+        "title": "Performance",
+        "desc": "Applications rapides et optimisées"
+      }
+    }
+  },
+  "cta": {
+    "contact": "Contactez-moi"
+  },
+  "skills": {
+    "subtitle": "Technologies et outils que je maîtrise",
+    "categories": {
+      "mobile": "Développement Mobile",
+      "web": "Développement Web"
+    },
+    "learning": "Toujours en apprentissage et en amélioration continue",
+    "badges": {
+      "production": "Prêt pour la production",
+      "performance": "Haute performance",
+      "bestpractices": "Bonnes pratiques"
+    }
   }
 }
