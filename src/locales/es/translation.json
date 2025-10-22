@@ -1,0 +1,16 @@
+{
+  "name": "Nombre Apellido",
+  "title": "Desarrollador Web Front-End",
+  "heroTitle": "Hola — Soy {{name}}",
+  "heroDesc": "Soy Desarrollador Web especializado en Front-End. Construyo interfaces accesibles y responsivas.",
+  "about": "Breve descripción personal y académica. Ej.: Estudiante de Ingeniería en TI con interés en desarrollo web, buenas prácticas y seguridad.",
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "skills": "Habilidades",
+    "projects": "Proyectos",
+    "certifications": "Certificaciones",
+    "contact": "Contacto",
+    "cv": "Descargar CV"
+  }
+}

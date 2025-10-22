@@ -1,0 +1,16 @@
+{
+  "name": "Nom Prénom",
+  "title": "Développeur Web Front-End",
+  "heroTitle": "Bonjour — Je suis {{name}}",
+  "heroDesc": "Je suis un développeur Front-End spécialisé dans la création d'interfaces réactives et accessibles.",
+  "about": "Brève description personnelle et académique. Exemple : Étudiant en ingénierie informatique passionné par le développement web, les bonnes pratiques et la sécurité.",
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "skills": "Compétences",
+    "projects": "Projets",
+    "certifications": "Certifications",
+    "contact": "Contact",
+    "cv": "Télécharger CV"
+  }
+}

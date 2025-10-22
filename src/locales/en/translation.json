@@ -1,0 +1,16 @@
+{
+  "name": "First Last",
+  "title": "Front-End Web Developer",
+  "heroTitle": "Hello — I'm {{name}}",
+  "heroDesc": "I'm a Front-End Developer focused on creating responsive and accessible interfaces.",
+  "about": "Brief personal and academic description. Example: IT Engineering student with a passion for web development, best practices, and security.",
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "certifications": "Certifications",
+    "contact": "Contact",
+    "cv": "Download CV"
+  }
+}
