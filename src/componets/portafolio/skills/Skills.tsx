@@ -1,11 +1,15 @@
-import React from "react";
+
 import { useTranslation } from "react-i18next";
 import BackgroundEffects from "../../UI/BackgroundEffects";
+import SkillsGrid from "./SkillsGrid";
+import type { Skill } from "./SkillsGrid";
+import CategoryCard from "./CategoryCard";
 
+// ...existing code...
 const Skills: React.FC = () => {
     const { t } = useTranslation();
 
-    const skills = [
+    const skills: Skill[] = [
         {
             name: "React",
             icon: (
@@ -94,104 +98,39 @@ const Skills: React.FC = () => {
     return (
         <section
             id="habilidades"
-            className="relative py-16 sm:py-20 md:py-24 lg:py-32 bg-gradient-to-b from-black via-[#0a0a0a] to-black overflow-hidden"
+            className="relative py-12 sm:py-16 lg:py-24 bg-gradient-to-b from-black via-[#0a0a0a] to-black overflow-hidden"
         >
-            {/* Background Effects */}
             <BackgroundEffects />
-            {/* Grid Pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.02)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Section Header */}
-                <div className="text-center mb-12 sm:mb-16 md:mb-20">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
+            <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-8 sm:mb-12">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400">
                             {t("nav.skills") || "Habilidades"}
                         </span>
                     </h2>
-                    <div className="w-20 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto mb-4"></div>
-                    <p className="text-gray-400 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
+                    <p className="text-gray-400 text-sm sm:text-base max-w-xl mx-auto">
                         {t("skills.subtitle") || "Tecnologías y herramientas que domino"}
                     </p>
                 </div>
 
-                {/* Skills Grid */}
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-16">
-                    {skills.map((skill, index) => (
-                        <div
-                            key={index}
-                            className="group relative bg-[#0a0a0a]/50 backdrop-blur-sm border border-cyan-500/10 rounded-2xl p-6 hover:border-cyan-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-cyan-500/10"
-                        >
-                            {/* Icon */}
-                            <div className={`w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 flex items-center justify-center rounded-xl bg-gradient-to-br ${skill.color} p-3 transform group-hover:scale-110 transition-transform duration-300`}>
-                                <div className="text-white">
-                                    {skill.icon}
-                                </div>
-                            </div>
-
-                            {/* Skill Name */}
-                            <h3 className="text-lg sm:text-xl font-bold text-white text-center mb-3">
-                                {skill.name}
-                            </h3>
-
-
-
-                            {/* Glow effect on hover */}
-                            <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300 -z-10`}></div>
-                        </div>
-                    ))}
+                {/* Skills grid component (mobile-first responsive) */}
+                <div className="mb-8">
+                    <SkillsGrid skills={skills} />
                 </div>
 
                 {/* Categories */}
-                <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
-                    {categories.map((category, index) => (
-                        <div
-                            key={index}
-                            className="bg-[#0a0a0a]/80 backdrop-blur-sm border border-cyan-500/20 rounded-2xl p-6 sm:p-8 hover:border-cyan-500/40 transition-all duration-300"
-                        >
-                            <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-3">
-                                <div className="w-2 h-8 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full"></div>
-                                {category.title}
-                            </h3>
-                            <div className="flex flex-wrap gap-2 sm:gap-3">
-                                {category.techs.map((tech, techIndex) => (
-                                    <span
-                                        key={techIndex}
-                                        className="px-3 sm:px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-cyan-400 text-xs sm:text-sm font-medium hover:bg-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 cursor-default"
-                                    >
-                                        {tech}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {categories.map((c) => (
+                        <CategoryCard key={c.title} title={c.title} techs={c.techs} />
                     ))}
                 </div>
 
                 {/* Additional Info */}
-                <div className="mt-12 sm:mt-16 text-center">
-                    <p className="text-gray-400 text-sm sm:text-base mb-6">
+                <div className="mt-8 text-center">
+                    <p className="text-gray-400 text-sm sm:text-base mb-4">
                         {t("skills.learning") || "Siempre aprendiendo y mejorando mis habilidades"}
                     </p>
-                    <div className="flex flex-wrap justify-center gap-4">
-                        <div className="flex items-center gap-2 text-cyan-400 text-sm">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span>{t("skills.badges.production") || "Listo para producción"}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-cyan-400 text-sm">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                            <span>{t("skills.badges.performance") || "Alto rendimiento"}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-cyan-400 text-sm">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                            </svg>
-                            <span>{t("skills.badges.bestpractices") || "Mejores prácticas"}</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -199,3 +138,4 @@ const Skills: React.FC = () => {
 };
 
 export default Skills;
+// ...existing code...
