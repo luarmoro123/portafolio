@@ -1,9 +1,9 @@
 {
   "name": "Luis Morales",
   "title": "Développeur d’Applications Mobiles",
-  "heroTitle": "Bonjour — Je suis Luis",
+  "heroTitle": "Salut — Je suis Luis",
   "heroDesc": "Développeur spécialisé en React Native et Kotlin",
-  "aboutIntro": "Je suis étudiant en ingénierie des technologies de l'information et de l'innovation numérique, spécialisé dans le développement d'applications mobiles hybrides avec React Native.",
+  "aboutIntro": "Je suis étudiant en Ingénierie des Technologies de l’Information et de l’Innovation Digitale, spécialisé dans le développement d’applications mobiles hybrides avec React Native.",
   "nav": {
     "label": "Navigation principale",
     "home": "Accueil",
@@ -12,20 +12,20 @@
     "projects": "Projets",
     "certifications": "Certifications",
     "contact": "Contact",
-    "cv": "Télécharger le CV",
+    "cv": "Télécharger CV",
     "language": "Langue"
   },
   "about": {
-    "description": "Je suis passionné par la création d'expériences utilisateur exceptionnelles et de solutions technologiques innovantes ayant un véritable impact. Je transforme les idées en applications fonctionnelles, attrayantes et optimisées.",
+    "description": "Je suis passionné par la création d’expériences utilisateur exceptionnelles et de solutions technologiques innovantes ayant un impact réel. Je transforme les idées en applications fonctionnelles, attrayantes et optimisées.",
     "stats": {
-      "experience": "Années d’Expérience",
-      "projects": "Projets Réalisés",
+      "experience": "Années d’expérience",
+      "projects": "Projets réalisés",
       "technologies": "Technologies"
     },
     "highlights": {
       "mobile": {
         "title": "Développement Mobile",
-        "desc": "Applications hybrides avec React Native"
+        "desc": "Applications hybrides développées avec React Native"
       },
       "innovation": {
         "title": "Innovation",
@@ -38,7 +38,7 @@
     }
   },
   "cta": {
-    "contact": "Contactez-moi"
+    "contact": "Me contacter"
   },
   "skills": {
     "subtitle": "Technologies et outils que je maîtrise",
@@ -46,11 +46,39 @@
       "mobile": "Développement Mobile",
       "web": "Développement Web"
     },
-    "learning": "Toujours en apprentissage et en amélioration continue",
+    "learning": "Toujours en train d’apprendre et d’améliorer mes compétences",
     "badges": {
-      "production": "Prêt pour la production",
-      "performance": "Haute performance",
-      "bestpractices": "Bonnes pratiques"
+      "production": "Prêt pour la Production",
+      "performance": "Haute Performance",
+      "bestpractices": "Bonnes Pratiques"
+    }
+  },
+  "projects": {
+    "subtitle": "Découvrez certains de mes projets récents",
+    "viewDemo": "Voir Démo",
+    "filters": {
+      "all": "Tous",
+      "web": "Web",
+      "mobile": "Mobile"
+    },
+    "noProjects": "Aucun projet dans cette catégorie.",
+    "cta": {
+      "title": "Vous avez un projet en tête ?",
+      "description": "Travaillons ensemble pour le réaliser"
+    },
+    "items": {
+      "calculator": {
+        "title": "Calculatrice",
+        "description": "Application mobile avec un style similaire à celui d’Apple."
+      },
+      "multiapp": {
+        "title": "Application Polyvalente",
+        "description": "Ma première application Kotlin avec différentes Activities."
+      },
+      "navigation": {
+        "title": "Application de Navigation",
+        "description": "Application React Native pour apprendre la navigation entre pages."
+      }
     }
   }
 }

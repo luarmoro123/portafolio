@@ -44,7 +44,7 @@ const AboutMe: React.FC = () => {
     return (
         <section
             id="sobre-mi"
-            className="relative py-16 sm:py-20 md:py-24 lg:py-32 bg-gradient-to-b from-black via-[#0a0a0a] to-black overflow-hidden"
+            className="relative py-16 sm:py-20 md:py-24 lg:py-32 bg-gradient-to-b from-black via-[#0a0a0a] to-black overflow-hidden "
         >
             {/* Background Effects */}
             <BackgroundEffects />

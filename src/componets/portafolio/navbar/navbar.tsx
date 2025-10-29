@@ -44,12 +44,12 @@ const Navbar: React.FC = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 overflow-x-hidden ${scrolled
         ? "bg-black/95 backdrop-blur-lg shadow-xl border-b border-cyan-500/20"
         : "bg-linear-to-b from-black/80 via-[#0a0a0a]/60 to-transparent backdrop-blur-md"
         }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <a
@@ -135,7 +135,7 @@ const Navbar: React.FC = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="lg:hidden p-2 text-gray-300 hover:text-cyan-400 rounded-lg hover:bg-white/5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className={`lg:hidden absolute top-full left-0 right-0 transition-all duration-300 ease-out ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}`}
             aria-label="Toggle menu"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

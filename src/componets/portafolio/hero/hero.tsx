@@ -35,7 +35,7 @@ const Hero: React.FC = () => {
     return (
         <section
             id="inicio"
-            className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-black via-[#0a0a0a] to-black pt-16"
+            className="relative min-h-screen flex items-start justify-center overflow-hidden bg-gradient-to-b from-black via-[#0a0a0a] to-black pt-16"
         >
             {/* Animated Background */}
             <div className="absolute inset-0 overflow-hidden">

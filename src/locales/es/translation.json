@@ -3,7 +3,7 @@
   "title": "Desarrollador de Aplicaciones Móviles",
   "heroTitle": "Hola — Soy Luis",
   "heroDesc": "Desarrollador especializado en React Native y Kotlin",
-  "aboutIntro": "Soy estudiante de Ingeniería en Tecnologías de la Información e Innovación Digital, enfocado en el desarrollo de aplicaciones móviles híbridas con React Native.",
+  "aboutIntro": "Soy estudiante de Ingeniería en Tecnologías de la Información e Innovación Digital, enfocado en el desarrollo de apps móviles híbridas usando React Native.",
   "nav": {
     "label": "Navegación principal",
     "home": "Inicio",
@@ -16,10 +16,10 @@
     "language": "Idioma"
   },
   "about": {
-    "description": "Me apasiona crear experiencias de usuario excepcionales y soluciones tecnológicas innovadoras que generen impacto real. Transformo ideas en aplicaciones funcionales, atractivas y optimizadas.",
+    "description": "Me apasiona crear experiencias de usuario excepcionales y soluciones tecnológicas innovadoras que generen un impacto real. Me especializo en convertir ideas en aplicaciones funcionales, atractivas y optimizadas.",
     "stats": {
-      "experience": "Años de Experiencia",
-      "projects": "Proyectos Completados",
+      "experience": "Años de experiencia",
+      "projects": "Proyectos completados",
       "technologies": "Tecnologías"
     },
     "highlights": {
@@ -46,11 +46,39 @@
       "mobile": "Desarrollo Móvil",
       "web": "Desarrollo Web"
     },
-    "learning": "Siempre aprendiendo y perfeccionando mis habilidades",
+    "learning": "Siempre aprendiendo y mejorando mis habilidades",
     "badges": {
-      "production": "Listo para producción",
-      "performance": "Alto rendimiento",
-      "bestpractices": "Mejores prácticas"
+      "production": "Listo para Producción",
+      "performance": "Alto Rendimiento",
+      "bestpractices": "Mejores Prácticas"
+    }
+  },
+  "projects": {
+    "subtitle": "Explora algunos de mis trabajos más recientes",
+    "viewDemo": "Ver Demo",
+    "filters": {
+      "all": "Todos",
+      "web": "Web",
+      "mobile": "Móvil"
+    },
+    "noProjects": "No hay proyectos en esta categoría.",
+    "cta": {
+      "title": "¿Tienes un proyecto en mente?",
+      "description": "Trabajemos juntos para hacerlo realidad"
+    },
+    "items": {
+      "calculator": {
+        "title": "Calculadora",
+        "description": "Aplicación móvil con un estilo similar al de Apple."
+      },
+      "multiapp": {
+        "title": "Aplicación Multiusos",
+        "description": "Mi primera aplicación en Kotlin con diferentes Activities."
+      },
+      "navigation": {
+        "title": "App de Navegación",
+        "description": "Aplicación en React Native para aprender navegación entre páginas."
+      }
     }
   }
 }

@@ -52,5 +52,33 @@
       "performance": "High Performance",
       "bestpractices": "Best Practices"
     }
+  },
+  "projects": {
+    "subtitle": "Explore some of my most recent work",
+    "viewDemo": "View Demo",
+    "filters": {
+      "all": "All",
+      "web": "Web",
+      "mobile": "Mobile"
+    },
+    "noProjects": "No projects in this category.",
+    "cta": {
+      "title": "Have a project in mind?",
+      "description": "Let's work together to make it a reality"
+    },
+    "items": {
+      "calculator": {
+        "title": "Calculator",
+        "description": "Mobile calculator application with a style similar to Apple's."
+      },
+      "multiapp": {
+        "title": "Multi-Purpose App",
+        "description": "My first Kotlin application with different Activities."
+      },
+      "navigation": {
+        "title": "Navigation App",
+        "description": "React Native application to learn how to navigate between pages."
+      }
+    }
   }
 }
