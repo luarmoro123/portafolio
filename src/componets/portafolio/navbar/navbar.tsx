@@ -64,12 +64,12 @@ const Navbar: React.FC = () => {
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-2">
+          <nav className="hidden lg:flex items-center gap-2 flex-wrap">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="relative px-4 py-2 text-sm font-medium text-gray-300 transition-all duration-300 hover:text-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg group"
+                className="relative px-3 py-2 text-sm font-medium text-gray-300 transition-all duration-300 hover:text-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg group"
               >
                 {link.label}
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-cyan-400 transition-all duration-300 group-hover:w-3/4"></span>
@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3 flex-wrap">
             {/* Language Selector */}
             <div className="relative">
               <button
@@ -120,7 +120,7 @@ const Navbar: React.FC = () => {
               href="/src/assets/cv.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-semibold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/50 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              className="group relative flex items-center gap-2 px-4 sm:px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-semibold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/50 focus:outline-none focus:ring-2 focus:ring-cyan-400 whitespace-nowrap"
             >
               <span className="relative z-10 flex items-center gap-2">
                 <Download className="w-4 h-4" />
@@ -146,8 +146,8 @@ const Navbar: React.FC = () => {
         className={`lg:hidden absolute top-full left-0 right-0 transition-all duration-300 ease-out ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
           }`}
       >
-        <nav className="mx-4 mt-2 bg-[#0a0a0a]/95 backdrop-blur-lg border border-cyan-500/20 rounded-lg shadow-2xl overflow-hidden">
-          <div className="px-4 py-3 space-y-1">
+        <nav className="mx-2 sm:mx-4 mt-2 bg-[#0a0a0a]/95 backdrop-blur-lg border border-cyan-500/20 rounded-lg shadow-2xl overflow-hidden">
+          <div className="px-4 py-3 space-y-2">
             {navLinks.map((link, index) => (
               <a
                 key={link.href}
@@ -173,7 +173,7 @@ const Navbar: React.FC = () => {
                   <button
                     key={lang.code}
                     onClick={() => changeLanguage(lang.code)}
-                    className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${i18n.language === lang.code
+                    className={`flex-1 min-w-[70px] px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${i18n.language === lang.code
                         ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
                         : "bg-white/5 text-gray-300 hover:bg-white/10 hover:text-cyan-400"
                       }`}
@@ -190,7 +190,7 @@ const Navbar: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsOpen(false)}
-              className="block mx-4 mb-3 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-black text-center font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
+              className="block mx-2 sm:mx-4 mb-3 px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-black text-center font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
             >
               <span className="flex items-center justify-center gap-2">
                 <Download className="w-4 h-4" />
