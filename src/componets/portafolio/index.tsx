@@ -4,6 +4,8 @@ import Hero from "./hero/hero";
 import AboutMe from "./aboutMe";
 import Skills from "./skills/Skills";
 import ProjectsSection from "./proyect/ProjectsSection";
+import CertificationsSection from "./certifications";
+import ContactSection from "./contacto";
 
 
 
@@ -16,6 +18,8 @@ const PortaFolio: React.FC = () => {
       <AboutMe />
       <Skills />
       <ProjectsSection />
+      <CertificationsSection />
+      <ContactSection />
     </div>
 
   );

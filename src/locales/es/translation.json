@@ -80,5 +80,14 @@
         "description": "Aplicación en React Native para aprender navegación entre páginas."
       }
     }
+  },
+  "certifications": {
+    "title": "Certificaciones",
+    "subtitle": "Certificaciones y logros profesionales que respaldan mi experiencia"
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "¿Tienes un proyecto en mente? ¡Hablemos!",
+    "follow": "Sígueme en redes sociales"
   }
 }

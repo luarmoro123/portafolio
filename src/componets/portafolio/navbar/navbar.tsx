@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Menu, X, Globe, Download } from "lucide-react";
 
 const Navbar: React.FC = () => {
+  const { t, i18n } = useTranslation(); // ✅ CORRECTO: Usar useTranslation
   const [isOpen, setIsOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [currentLang, setCurrentLang] = useState("es");
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -27,8 +28,9 @@ const Navbar: React.FC = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
   const toggleLangMenu = () => setIsLangOpen(!isLangOpen);
 
+  // ✅ CORRECTO: Usar i18n.changeLanguage
   const changeLanguage = (lng: string) => {
-    setCurrentLang(lng);
+    i18n.changeLanguage(lng);
     setIsLangOpen(false);
     setIsOpen(false);
   };
@@ -39,62 +41,9 @@ const Navbar: React.FC = () => {
     { code: "fr", label: "Français", flag: "🇫🇷" },
   ];
 
-  // Traducciones simuladas
-  const translations: any = {
-    es: {
-      name: "Luis Morales",
-      nav: {
-        label: "Menú",
-        home: "Inicio",
-        about: "Sobre mí",
-        skills: "Habilidades",
-        projects: "Proyectos",
-        certifications: "Certificaciones",
-        contact: "Contacto",
-        cv: "Descargar CV",
-        language: "Idioma"
-      }
-    },
-    en: {
-      name: "Luis Morales",
-      nav: {
-        label: "Menu",
-        home: "Home",
-        about: "About",
-        skills: "Skills",
-        projects: "Projects",
-        certifications: "Certifications",
-        contact: "Contact",
-        cv: "Download CV",
-        language: "Language"
-      }
-    },
-    fr: {
-      name: "Luis Morales",
-      nav: {
-        label: "Menu",
-        home: "Accueil",
-        about: "À propos",
-        skills: "Compétences",
-        projects: "Projets",
-        certifications: "Certifications",
-        contact: "Contact",
-        cv: "Télécharger CV",
-        language: "Langue"
-      }
-    }
-  };
-
-  const t = (key: string) => {
-    const keys = key.split('.');
-    let value = translations[currentLang];
-    for (const k of keys) {
-      value = value[k];
-    }
-    return value;
-  };
-
-  const selectedLang = languages.find((lang) => lang.code === currentLang) || languages[0];
+  // ✅ CORRECTO: Usar i18n.language y manejar el formato
+  const currentLanguage = i18n.language.split('-')[0]; // Por si viene como "es-ES"
+  const selectedLang = languages.find((lang) => lang.code === currentLanguage) || languages[0];
 
   const navLinks = [
     { href: "#inicio", label: t("nav.home") },
@@ -109,13 +58,13 @@ const Navbar: React.FC = () => {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-            ? "bg-black/95 backdrop-blur-lg shadow-xl border-b border-cyan-500/20"
-            : "bg-gradient-to-b from-black/80 via-[#0a0a0a]/60 to-transparent backdrop-blur-md"
+          ? "bg-black/95 backdrop-blur-lg shadow-xl border-b border-cyan-500/20"
+          : "bg-gradient-to-b from-black/80 via-[#0a0a0a]/60 to-transparent backdrop-blur-md"
           }`}
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
-            {/* Logo - Más compacto en landscape */}
+            {/* Logo */}
             <a
               href="#inicio"
               className="relative flex items-center gap-1.5 sm:gap-2 text-lg sm:text-xl lg:text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg px-1.5 sm:px-2 py-1 group flex-shrink-0"
@@ -176,9 +125,9 @@ const Navbar: React.FC = () => {
                         <button
                           key={lang.code}
                           onClick={() => changeLanguage(lang.code)}
-                          className={`w-full px-3 xl:px-4 py-2 xl:py-2.5 text-left text-xs xl:text-sm transition-all duration-200 flex items-center gap-2 ${currentLang === lang.code
-                              ? "bg-cyan-500/20 text-cyan-400"
-                              : "text-gray-300 hover:bg-white/5 hover:text-cyan-400"
+                          className={`w-full px-3 xl:px-4 py-2 xl:py-2.5 text-left text-xs xl:text-sm transition-all duration-200 flex items-center gap-2 ${i18n.language === lang.code
+                            ? "bg-cyan-500/20 text-cyan-400"
+                            : "text-gray-300 hover:bg-white/5 hover:text-cyan-400"
                             }`}
                         >
                           <span>{lang.flag}</span>
@@ -218,7 +167,7 @@ const Navbar: React.FC = () => {
         </div>
       </header>
 
-      {/* Mobile Navigation - Optimizado para landscape */}
+      {/* Mobile Navigation */}
       {isOpen && (
         <>
           {/* Overlay */}
@@ -273,9 +222,9 @@ const Navbar: React.FC = () => {
                       <button
                         key={lang.code}
                         onClick={() => changeLanguage(lang.code)}
-                        className={`px-2 py-2 text-xs font-medium rounded-lg transition-all duration-200 flex flex-col items-center gap-1 ${currentLang === lang.code
-                            ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
-                            : "bg-white/5 text-gray-300 hover:bg-white/10 hover:text-cyan-400"
+                        className={`px-2 py-2 text-xs font-medium rounded-lg transition-all duration-200 flex flex-col items-center gap-1 ${i18n.language === lang.code
+                          ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
+                          : "bg-white/5 text-gray-300 hover:bg-white/10 hover:text-cyan-400"
                           }`}
                       >
                         <span className="text-lg">{lang.flag}</span>

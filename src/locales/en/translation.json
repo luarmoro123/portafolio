@@ -80,5 +80,14 @@
         "description": "React Native application to learn how to navigate between pages."
       }
     }
+  },
+  "certifications": {
+    "title": "Certifications",
+    "subtitle": "Professional certifications and achievements that support my experience"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Do you have a project in mind? Let's talk!",
+    "follow": "Follow me on social media"
   }
 }

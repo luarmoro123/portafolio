@@ -14,7 +14,7 @@ const ProjectsSection: React.FC = () => {
             title: t('projects.items.calculator.title'),
             description: t('projects.items.calculator.description'),
             image:
-                'https://images.unsplash.com/photo-1554224311-beee2f770c7c?w=800&q=80',
+                '/calculadoraImgCortada.png',
             technologies: ['React Native', 'TypeScript'],
             category: 'mobile',
             githubUrl: 'https://github.com/luarmoro123/calculator-app',
@@ -23,7 +23,7 @@ const ProjectsSection: React.FC = () => {
             title: t('projects.items.multiapp.title'),
             description: t('projects.items.multiapp.description'),
             image:
-                'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80',
+                '/appMultiusos.jpg',
             technologies: ['Kotlin'],
             category: 'mobile',
             githubUrl: 'https://gitlab.com/2024030352/movilapp',
@@ -32,7 +32,7 @@ const ProjectsSection: React.FC = () => {
             title: t('projects.items.navigation.title'),
             description: t('projects.items.navigation.description'),
             image:
-                'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&q=80',
+                '/navigationApp.png',
             technologies: ['React Native', 'TypeScript'],
             category: 'mobile',
             githubUrl: 'https://github.com/luarmoro123/navigation-app',
