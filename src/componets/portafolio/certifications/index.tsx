@@ -8,15 +8,6 @@ const CertificationsSection: React.FC = () => {
     const { t } = useTranslation();
     const certifications: Certification[] = [
         {
-            title: "CCNA: Introduction to Networks",
-            issuer: "Cisco",
-            date: "12/7/2024",
-            credentialId: "c6a3c2a2-0a31-4e2b-a4ae-525e9bc2fe5b",
-            credentialUrl: "https://www.credly.com/earner/earned/badge/c6a3c2a2-0a31-4e2b-a4ae-525e9bc2fe5b",
-            skills: [],
-            logo: "https://images.credly.com/images/70d71df5-f3dc-4380-9b9d-f22513a70417/CCNAITN__1_.png",
-        },
-        {
             title: "CCNA: Switching, Routing, and Wireless Essentials",
             issuer: "Cisco",
             date: "Diciembre 2023",
