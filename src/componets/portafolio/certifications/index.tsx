@@ -13,7 +13,7 @@ const CertificationsSection: React.FC = () => {
             date: "12/7/2024",
             credentialId: "c6a3c2a2-0a31-4e2b-a4ae-525e9bc2fe5b",
             credentialUrl: "https://www.credly.com/earner/earned/badge/c6a3c2a2-0a31-4e2b-a4ae-525e9bc2fe5b",
-            skills: ["React Native", "Mobile Development", "JavaScript"],
+            skills: [],
             logo: "https://images.credly.com/images/70d71df5-f3dc-4380-9b9d-f22513a70417/CCNAITN__1_.png",
         },
         {
@@ -22,7 +22,7 @@ const CertificationsSection: React.FC = () => {
             date: "Diciembre 2023",
             credentialId: "65309e3f-3b6d-4865-ba17-f13a4ddc09fa",
             credentialUrl: "https://www.credly.com/earner/earned/badge/65309e3f-3b6d-4865-ba17-f13a4ddc09fa",
-            skills: ["Kotlin", "Android", "Mobile Apps"],
+            skills: [],
             logo: "https://images.credly.com/images/f4ccdba9-dd65-4349-baad-8f05df116443/CCNASRWE__1_.png",
         },
         {
@@ -31,8 +31,17 @@ const CertificationsSection: React.FC = () => {
             date: "4/27/2025",
             credentialId: "4207f171-28b8-4639-bcd1-8ef1993cf337",
             credentialUrl: "https://www.credly.com/earner/earned/badge/4207f171-28b8-4639-bcd1-8ef1993cf337",
-            skills: ["React", "Node.js", "MongoDB"],
+            skills: [],
             logo: "https://images.credly.com/images/978f88dc-c247-4093-9d39-6efac3651297/image.png",
+        },
+        {
+            title: "CSS Essentials",
+            issuer: "Cisco",
+            date: "11/1/2025",
+            credentialId: "973e0f1e-6d8c-458b-bc44-cfb867a5f064",
+            credentialUrl: "https://www.credly.com/earner/earned/badge/973e0f1e-6d8c-458b-bc44-cfb867a5f064",
+            skills: ["CSS"],
+            logo: "https://images.credly.com/images/bd2bba36-66ad-4de2-9d91-e29433e51a16/blob",
         },
     ];
 
