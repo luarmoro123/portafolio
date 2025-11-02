@@ -8,15 +8,6 @@ const CertificationsSection: React.FC = () => {
     const { t } = useTranslation();
     const certifications: Certification[] = [
         {
-            title: "CCNA: Switching, Routing, and Wireless Essentials",
-            issuer: "Cisco",
-            date: "Diciembre 2023",
-            credentialId: "65309e3f-3b6d-4865-ba17-f13a4ddc09fa",
-            credentialUrl: "https://www.credly.com/earner/earned/badge/65309e3f-3b6d-4865-ba17-f13a4ddc09fa",
-            skills: [],
-            logo: "https://images.credly.com/images/f4ccdba9-dd65-4349-baad-8f05df116443/CCNASRWE__1_.png",
-        },
-        {
             title: "Network Technician Career Path",
             issuer: "Cisco",
             date: "4/27/2025",
@@ -33,6 +24,15 @@ const CertificationsSection: React.FC = () => {
             credentialUrl: "https://www.credly.com/earner/earned/badge/973e0f1e-6d8c-458b-bc44-cfb867a5f064",
             skills: ["CSS"],
             logo: "https://images.credly.com/images/bd2bba36-66ad-4de2-9d91-e29433e51a16/blob",
+        },
+        {
+            title: "HTML Essentials",
+            issuer: "Cisco",
+            date: "11/1/2025",
+            credentialId: "6f6332f9-cd10-4dc7-8c3b-0f57f4117bec",
+            credentialUrl: "https://www.credly.com/earner/earned/badge/6f6332f9-cd10-4dc7-8c3b-0f57f4117bec",
+            skills: ["CSS"],
+            logo: "https://images.credly.com/images/b1c17d0c-e76b-45fc-9b28-87b01ae1caf3/blob",
         },
     ];
 
