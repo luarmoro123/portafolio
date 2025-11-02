@@ -31,7 +31,7 @@ const CertificationsSection: React.FC = () => {
             date: "11/1/2025",
             credentialId: "6f6332f9-cd10-4dc7-8c3b-0f57f4117bec",
             credentialUrl: "https://www.credly.com/earner/earned/badge/6f6332f9-cd10-4dc7-8c3b-0f57f4117bec",
-            skills: ["CSS"],
+            skills: ["HTML"],
             logo: "https://images.credly.com/images/b1c17d0c-e76b-45fc-9b28-87b01ae1caf3/blob",
         },
     ];
