@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import ButtonCustom from '../../UI/ButtonCustom/buttonCuston';
+import ButtonCustom from '../../ui/ButtonCustom';
 
 const Hero: React.FC = () => {
     const { t, i18n } = useTranslation();

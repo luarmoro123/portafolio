@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import BackgroundEffects from "../../UI/BackgroundEffects"
+import BackgroundEffects from "../../ui/BackgroundEffects"
 
 const AboutMe: React.FC = () => {
     const { t } = useTranslation();

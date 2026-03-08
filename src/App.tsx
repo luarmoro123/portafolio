@@ -1,13 +1,8 @@
-import PortaFolio from './componets/portafolio'
+import Portfolio from './components/portfolio'
 import './App.css'
 
-
 function App() {
-  return (
-    <>
-     <PortaFolio/>
-    </>
-  )
+  return <Portfolio />
 }
 
 export default App
