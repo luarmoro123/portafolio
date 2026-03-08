@@ -1,6 +1,6 @@
 
 import { useTranslation } from "react-i18next";
-import BackgroundEffects from "../../UI/BackgroundEffects";
+import BackgroundEffects from "../../ui/BackgroundEffects";
 import SkillsGrid from "./SkillsGrid";
 import type { Skill } from "./SkillsGrid";
 import CategoryCard from "./CategoryCard";

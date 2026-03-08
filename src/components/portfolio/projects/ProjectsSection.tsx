@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import BackgroundEffects from '../../UI/BackgroundEffects';
+import BackgroundEffects from '../../ui/BackgroundEffects';
 import ProjectCard from './ProjectCard';
 import FilterButton from './FilterButton';
 import type { Project } from './types';

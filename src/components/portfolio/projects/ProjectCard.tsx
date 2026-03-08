@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ButtonCustom from '../../UI/ButtonCustom/buttonCuston';
+import { ExternalLink, Github, Code2 } from 'lucide-react';
 import type { ProjectCardProps } from './types';
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
@@ -25,7 +25,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                     />
                 ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                        <div className="text-6xl opacity-20">💻</div>
+                        <Code2 className="w-16 h-16 text-cyan-400/30" />
                     </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
@@ -56,14 +56,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3">
                     {project.liveUrl && (
-                        <ButtonCustom href={project.liveUrl} variant="primary">
+                        <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 text-sm"
+                        >
+                            <ExternalLink className="w-4 h-4" />
                             {t('projects.viewDemo')}
-                        </ButtonCustom>
+                        </a>
                     )}
                     {project.githubUrl && (
-                        <ButtonCustom href={project.githubUrl} variant="secondary">
+                        <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-2 px-4 py-2.5 border border-cyan-500/50 text-cyan-400 rounded-lg hover:bg-cyan-500/10 hover:border-cyan-400 transition-all duration-300 text-sm font-medium"
+                        >
+                            <Github className="w-4 h-4" />
                             GitHub
-                        </ButtonCustom>
+                        </a>
                     )}
                 </div>
             </div>

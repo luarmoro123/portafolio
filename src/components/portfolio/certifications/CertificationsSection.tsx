@@ -1,7 +1,7 @@
 import React from "react";
 import { Award } from "lucide-react";
-import CertificationCard, { type Certification } from "./certificationCard";
-import BackgroundEffects from "../../UI/BackgroundEffects";
+import CertificationCard, { type Certification } from "./CertificationCard";
+import BackgroundEffects from "../../ui/BackgroundEffects";
 import { useTranslation } from "react-i18next";
 
 const CertificationsSection: React.FC = () => {
