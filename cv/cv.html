@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>CV - Luis Arturo Morales Robles - QA Engineer</title>
+<meta name="author" content="Luis Arturo Morales Robles">
+<!--
+  Fuente del CV. Para regenerar public/cv.pdf:
+  abre este archivo en Chrome → Imprimir → Guardar como PDF, tamaño Carta, márgenes "Ninguno",
+  con "Gráficos de fondo" activado. (O con Playwright: page.pdf({ format: 'Letter', printBackground: true })).
+-->
+<style>
+  @page { size: Letter; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    color: #1f2937;
+    font-size: 9.1pt;
+    line-height: 1.33;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .page { width: 8.5in; height: 11in; overflow: hidden; padding: 0.42in 0.5in 0.35in; }
+  a { color: inherit; text-decoration: none; }
+
+  header { display: flex; align-items: center; gap: 18px; padding-bottom: 10px; border-bottom: 2.5px solid #0891b2; }
+  header img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 2px solid #0891b2; }
+  h1 { margin: 0; font-size: 23pt; letter-spacing: -0.4px; color: #0f172a; line-height: 1.05; }
+  .role { margin: 4px 0 7px; font-size: 12pt; font-weight: 600; color: #0e7490; }
+  .contact { display: flex; flex-wrap: wrap; gap: 3px 14px; font-size: 8.8pt; color: #374151; }
+  .contact span::before { content: '▸ '; color: #0891b2; }
+
+  h2 {
+    margin: 10px 0 5px; font-size: 10.5pt; text-transform: uppercase; letter-spacing: 1.2px;
+    color: #0e7490; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px;
+  }
+  p { margin: 0; }
+  .item { margin-bottom: 6px; break-inside: avoid; }
+  .item-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .item-title { font-weight: 700; color: #0f172a; font-size: 10.2pt; }
+  .item-org { color: #374151; font-weight: 600; }
+  .date { color: #4b5563; font-size: 8.8pt; white-space: nowrap; }
+  ul { margin: 3px 0 0; padding-left: 15px; }
+  li { margin: 1.5px 0; }
+  li::marker { color: #0891b2; }
+  .stack { color: #4b5563; font-size: 8.8pt; margin-top: 2px; }
+  .stack b { color: #0e7490; font-weight: 600; }
+
+  .skills { display: grid; grid-template-columns: 150px 1fr; gap: 3px 10px; }
+  .skills dt { font-weight: 700; color: #0f172a; }
+  .skills dd { margin: 0; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <img src="../src/assets/profile.jpg" alt="Foto de Luis Arturo Morales Robles">
+    <div>
+      <h1>Luis Arturo Morales Robles</h1>
+      <p class="role">QA Engineer · Desarrollador de Software</p>
+      <div class="contact">
+        <span><a href="mailto:moralesroblesluisarturo@gmail.com">moralesroblesluisarturo@gmail.com</a></span>
+        <span>México</span>
+        <span><a href="https://www.linkedin.com/in/luis-arturo-morales-robles-938630379/">linkedin.com/in/luis-arturo-morales-robles-938630379</a></span>
+        <span><a href="https://github.com/luarmoro123">github.com/luarmoro123</a></span>
+        <span><a href="https://portafolio-one-wine-20.vercel.app">portafolio-one-wine-20.vercel.app</a></span>
+      </div>
+    </div>
+  </header>
+
+  <h2>Perfil profesional</h2>
+  <p>
+    QA Engineer en Grupo STI con experiencia en pruebas manuales y automatizadas de aplicaciones web y móviles.
+    Automatizo pruebas end-to-end con <b>Playwright</b> y pruebo APIs con <b>Postman</b>. Técnico Superior Universitario
+    en Desarrollo de Software Multiplataforma y estudiante de Ingeniería en Tecnologías de la Información e Innovación
+    Digital. Como también desarrollo, entiendo cómo se construye lo que pruebo, y en mis propios proyectos incluyo
+    pruebas unitarias, de integración y E2E desde el inicio.
+  </p>
+
+  <h2>Experiencia laboral</h2>
+  <div class="item">
+    <div class="item-head">
+      <p><span class="item-title">QA Engineer</span> · <span class="item-org">Grupo STI</span> · medio tiempo</p>
+      <span class="date">Sep 2026 – Actualidad</span>
+    </div>
+    <ul>
+      <li>Reviso aplicaciones web y móviles antes de cada entrega para detectar fallas funcionales.</li>
+      <li>Diseño y escribo pruebas automatizadas end-to-end con Playwright.</li>
+      <li>Pruebo y valido APIs con Postman.</li>
+      <li>Ejecuto pruebas manuales y automatizadas en apps móviles y sitios web.</li>
+    </ul>
+  </div>
+  <div class="item">
+    <div class="item-head">
+      <p><span class="item-title">QA Tester (prácticas profesionales)</span> · <span class="item-org">Grupo STI</span></p>
+      <span class="date">May 2026 – Ago 2026</span>
+    </div>
+    <ul>
+      <li>Pruebas manuales y revisión de aplicaciones web y móviles.</li>
+      <li>Inicio en la automatización con Playwright y en las pruebas de API con Postman.</li>
+      <li>Al terminar las prácticas, la empresa me contrató como QA Engineer.</li>
+    </ul>
+  </div>
+
+  <h2>Proyectos</h2>
+  <div class="item">
+    <div class="item-head"><p><span class="item-title">EventoPay</span> · Web instalable (PWA) para el cobro de eventos</p><span class="date">2026</span></div>
+    <ul>
+      <li>El administrador registra pagos e importa o exporta Excel; cada colaborador entra con un código y ve su avance.</li>
+      <li>Pruebas unitarias y de integración con Vitest contra PostgreSQL y flujos E2E con Playwright (cuentas, pagos, Excel).</li>
+    </ul>
+    <p class="stack"><b>Stack:</b> Next.js, React, TypeScript, PostgreSQL, Prisma, Tailwind CSS, Vitest, Playwright</p>
+  </div>
+  <div class="item">
+    <div class="item-head"><p><span class="item-title">Kiosko Reparaciones</span> · Sitio web para un negocio real de reparación de celulares</p><span class="date">2026</span></div>
+    <ul>
+      <li>One page con cotizador de precios, servicios, dos sucursales con mapa, preguntas frecuentes y contacto por WhatsApp.</li>
+      <li>Sitio estático optimizado: imágenes AVIF/WebP, sitemap y SEO local.</li>
+    </ul>
+    <p class="stack"><b>Stack:</b> Astro, TypeScript, CSS</p>
+  </div>
+  <div class="item">
+    <div class="item-head"><p><span class="item-title">PayDay</span> · App Android de gastos personales y compartidos (en desarrollo)</p><span class="date">2026</span></div>
+    <ul>
+      <li>Calcula las fechas de corte y de pago de tarjetas de bancos mexicanos y avisa 3 días antes.</li>
+      <li>Pruebas unitarias del motor de fechas (cortes, pagos y días inhábiles) desde la primera fase.</li>
+    </ul>
+    <p class="stack"><b>Stack:</b> Kotlin, Jetpack Compose, Room (SQLite), JUnit</p>
+  </div>
+
+  <h2>Habilidades técnicas</h2>
+  <dl class="skills">
+    <dt>Calidad y pruebas</dt><dd>Playwright, Postman, pruebas manuales, pruebas E2E, pruebas de API, pruebas de regresión, Vitest, JUnit</dd>
+    <dt>Lenguajes</dt><dd>TypeScript, JavaScript, Kotlin, Java, Python, C/C++</dd>
+    <dt>Frameworks</dt><dd>React, Next.js, Astro, React Native, Jetpack Compose, Tailwind CSS</dd>
+    <dt>Datos y herramientas</dt><dd>PostgreSQL, Prisma, MySQL, MongoDB, Firebase, Git (GitHub/GitLab), Docker, Vercel</dd>
+  </dl>
+
+  <div class="two">
+    <div>
+      <h2>Educación</h2>
+      <div class="item">
+        <p class="item-title">Ingeniería en Tecnologías de la Información e Innovación Digital</p>
+        <p>Universidad Politécnica de Sinaloa · <span class="date">2026 – en curso</span></p>
+      </div>
+      <div class="item">
+        <p class="item-title">TSU en Desarrollo de Software Multiplataforma</p>
+        <p>Universidad Politécnica de Sinaloa · <span class="date">Sep 2024 – Ago 2026</span></p>
+      </div>
+    </div>
+    <div>
+      <h2>Certificaciones</h2>
+      <ul style="padding-left:15px;margin-top:0">
+        <li><b>HTML Essentials</b> · Cisco · 2025</li>
+        <li><b>CSS Essentials</b> · Cisco · 2025</li>
+        <li><b>Network Technician Career Path</b> · Cisco · 2025</li>
+      </ul>
+      <h2>Competencias</h2>
+      <p>Proactividad, empatía, honestidad y alta capacidad de trabajo.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

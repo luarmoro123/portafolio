@@ -1,0 +1,59 @@
+---
+import Window from './Window.astro';
+import SectionHeader from './SectionHeader.astro';
+import { useTranslations, type Lang } from '../i18n';
+import { skills, skillLabels } from '../data/skills';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const label = (s: string) => (lang === 'es' ? s : (skillLabels[s]?.[lang] ?? s));
+
+const groups = [
+  { title: t.skills.groups.qa, items: skills.qa, color: 'text-term-green' },
+  { title: t.skills.groups.dev, items: skills.dev, color: 'text-term-cyan' },
+  { title: t.skills.groups.tools, items: skills.tools, color: 'text-term-violet' },
+];
+---
+
+<section id="habilidades" class="section">
+  <div class="container-page">
+    <SectionHeader
+      index="03"
+      file={t.term.files.skills}
+      title={t.skills.title}
+      subtitle={t.skills.subtitle}
+      agent="ui"
+      builtBy={t.term.builtBy}
+    />
+
+    <Window title={t.term.files.skills} meta="JSON" data-reveal bodyClass="p-5 sm:p-7 text-sm">
+      <p class="text-muted" aria-hidden="true">{'{'}</p>
+      <div class="grid lg:grid-cols-3 gap-6 lg:gap-8 ps-4 my-2">
+        {
+          groups.map((g, gi) => (
+            <div>
+              <h3 class="mb-3">
+                <span class="text-term-pink">"{g.title}"</span>
+                <span class="text-muted">: [</span>
+              </h3>
+              <ul class="flex flex-wrap gap-2 ps-3">
+                {g.items.map((s, i) => (
+                  <li class="px-2.5 py-1 rounded border border-line bg-panel2 hover:border-current transition-colors">
+                    <span class={g.color}>"{label(s)}"</span>
+                    <span class="text-muted" aria-hidden="true">{i < g.items.length - 1 ? ',' : ''}</span>
+                  </li>
+                ))}
+              </ul>
+              <p class="text-muted mt-2" aria-hidden="true">]{gi < groups.length - 1 ? ',' : ''}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="text-muted" aria-hidden="true">{'}'}</p>
+    </Window>
+  </div>
+</section>
