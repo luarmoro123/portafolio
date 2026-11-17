@@ -1,0 +1,26 @@
+---
+// Ventana estilo IDE/terminal con barra de título.
+interface Props {
+  title: string;
+  meta?: string;
+  class?: string;
+  bodyClass?: string;
+  build?: string;
+  id?: string;
+  [attr: `data-${string}`]: unknown;
+}
+
+const { title, meta, class: className, bodyClass = 'p-5 sm:p-6', build, id, ...rest } = Astro.props;
+---
+
+<div class:list={['window', className]} data-build={build} id={id} {...rest}>
+  <div class="window-bar">
+    <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="truncate">{title}</span>
+    {meta && <span class="ml-auto shrink-0 text-[11px]">{meta}</span>}
+    <slot name="bar" />
+  </div>
+  <div class={bodyClass}>
+    <slot />
+  </div>
+</div>

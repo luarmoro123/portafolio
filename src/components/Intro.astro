@@ -1,0 +1,234 @@
+---
+// Animación de entrada: varios "agentes de IA" construyen la página y el nombre se teclea en la terminal.
+// Solo corre si <html> tiene la clase `intro` (se agrega en Base.astro, salvo con "reducir movimiento").
+import { useTranslations, type Lang } from '../i18n';
+import { agents } from '../data/agents';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const config = JSON.stringify({ agents, s: t.term.intro });
+---
+
+<aside id="intro-ui" data-config={config} aria-label="orchestrator — build">
+  <div class="intro-grid" aria-hidden="true"></div>
+  <div class="qa-scan" aria-hidden="true"></div>
+  <div id="intro-cursors" aria-hidden="true"></div>
+
+  <div
+    id="intro-log"
+    class="window fixed z-[80] bottom-3 left-3 right-3 sm:left-auto sm:right-5 sm:bottom-5 sm:w-[27rem] text-[12px] sm:text-[13px]"
+  >
+    <div class="window-bar">
+      <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="truncate">orchestrator — build</span>
+      <button
+        id="intro-skip"
+        type="button"
+        class="ml-auto shrink-0 px-2 py-0.5 rounded border border-line text-fg hover:border-term-green hover:text-term-green"
+      >
+        {t.term.intro.skip} <kbd class="text-muted">Esc</kbd>
+      </button>
+    </div>
+    <div class="p-3.5 sm:p-4 max-h-[38vh] overflow-hidden">
+      <p class="text-muted"><span class="text-term-green">$</span> <span id="intro-cmd"></span></p>
+      <div id="intro-lines" class="mt-2 space-y-1" role="log" aria-live="off"></div>
+    </div>
+  </div>
+</aside>
+
+<style is:global>
+  #intro-ui { display: none; }
+  .intro #intro-ui, #intro-ui.closing { display: block; }
+</style>
+
+<script>
+  type Agent = { name: string; color: string };
+  type Config = { agents: Record<string, Agent>; s: Record<string, string> };
+
+  const root = document.documentElement;
+  const ui = document.getElementById('intro-ui');
+
+  if (ui && root.classList.contains('intro')) {
+    void run(ui, JSON.parse(ui.dataset.config ?? '{}') as Config);
+  }
+
+  async function run(ui: HTMLElement, { agents, s }: Config) {
+    const $ = <T extends Element = HTMLElement>(sel: string) => document.querySelector<T>(sel) as T | null;
+
+    // ── control de tiempo y "saltar" ──
+    let skipped = false;
+    const waiters = new Set<() => void>();
+    const wait = (ms: number) =>
+      new Promise<void>((res) => {
+        if (skipped) return res();
+        const done = () => {
+          clearTimeout(id);
+          waiters.delete(done);
+          res();
+        };
+        const id = setTimeout(done, ms);
+        waiters.add(done);
+      });
+    const skip = () => {
+      if (skipped) return;
+      skipped = true;
+      [...waiters].forEach((f) => f());
+    };
+    $('#intro-skip')?.addEventListener('click', skip);
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && skip();
+    document.addEventListener('keydown', onKey);
+
+    // ── tecleo tipo terminal ──
+    const typeInto = async (el: Element | null | undefined, text: string, speed = 40) => {
+      if (!el) return;
+      el.textContent = '';
+      for (const ch of text) {
+        if (skipped) break;
+        el.textContent += ch;
+        await wait(speed + Math.random() * speed * 0.8);
+      }
+      el.textContent = text;
+    };
+
+    // Guardar textos y vaciarlos antes de construir
+    const nameEl = $('#typed-name');
+    const fullName = nameEl?.textContent ?? '';
+    nameEl?.closest('h1')?.setAttribute('aria-label', fullName);
+    if (nameEl) nameEl.textContent = '';
+    const typed = [...document.querySelectorAll<HTMLElement>('[data-type]')].map((el) => {
+      const text = el.textContent ?? '';
+      el.textContent = '';
+      return { el, text };
+    });
+
+    // ── cursores de agentes ──
+    const cursorsBox = $('#intro-cursors')!;
+    const cursors: Record<string, HTMLElement> = {};
+    for (const [key, a] of Object.entries(agents)) {
+      const c = document.createElement('div');
+      c.className = 'agent-cursor';
+      c.innerHTML = `<svg width="18" height="22" viewBox="0 0 18 22"><path d="M1.5 1.5v17l4.6-4.4 3.3 6.8 3-1.5-3.2-6.6H16z" fill="${a.color}" stroke="#0b0f0c" stroke-width="1.4" stroke-linejoin="round"/></svg><span style="background:${a.color}">${a.name}</span>`;
+      c.style.transform = `translate(${innerWidth / 2}px, ${innerHeight + 40}px)`;
+      cursorsBox.appendChild(c);
+      cursors[key] = c;
+    }
+    const move = async (key: string, target: Element | null, ms = 480) => {
+      const c = cursors[key];
+      if (!c || !target) return;
+      const r = target.getBoundingClientRect();
+      if (r.top > innerHeight - 20 || r.bottom < 0) return; // fuera de pantalla: no se mueve
+      const x = r.left + Math.min(r.width * 0.32, 180);
+      const y = r.top + Math.min(r.height * 0.45, 46);
+      c.classList.add('on');
+      c.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+      await wait(ms);
+    };
+
+    // ── log del orquestador ──
+    const lines = $('#intro-lines')!;
+    const log = (key: string, text: string) => {
+      const a = agents[key]!;
+      const li = document.createElement('div');
+      li.className = 'flex gap-2';
+      li.innerHTML = `<span class="shrink-0 font-bold" style="color:${a.color}">[${a.name}]</span><span class="text-fg flex-1 min-w-0"></span><span class="shrink-0 text-term-amber" data-st>…</span>`;
+      li.children[1]!.textContent = text;
+      lines.appendChild(li);
+      return li;
+    };
+    const ok = (li: HTMLElement, text = '✓') => {
+      const st = li.querySelector<HTMLElement>('[data-st]');
+      if (st) {
+        st.textContent = text;
+        st.className = 'shrink-0 text-term-green';
+      }
+    };
+    const build = (el: Element | null) => el?.classList.add('is-built');
+
+    const navbar = $('#navbar');
+    const hero = $('#hero-terminal');
+    const panel = $('#agents-panel');
+    const grid = $('.intro-grid');
+
+    // ── secuencia ──
+    await wait(200);
+    const cmd = typeInto($('#intro-cmd'), s.command!, 14);
+
+    let l = log('planner', s.planner!);
+    grid?.classList.add('on');
+    await move('planner', $('#inicio .container-page'), 380);
+    await cmd;
+    ok(l);
+
+    l = log('ui', s.ui1!);
+    await move('ui', navbar, 380);
+    build(navbar);
+    await wait(200);
+    ok(l);
+
+    l = log('content', s.content!);
+    await move('content', hero, 380);
+    build(hero);
+    await wait(150);
+
+    // data-agent trabaja en paralelo mientras content-agent escribe
+    const dataJob = (async () => {
+      await wait(350);
+      const ld = log('data', s.data!);
+      await move('data', panel, 420);
+      build(panel);
+      await wait(300);
+      ok(ld);
+    })();
+
+    await typeInto(typed[0]?.el, typed[0]?.text ?? '', 34);
+    await wait(120);
+
+    // el cursor del agente sigue al cursor de texto mientras teclea el nombre
+    const caret = nameEl?.parentElement?.querySelector('.caret-block') ?? null;
+    const follow = setInterval(() => void move('content', caret, 0), 160);
+    await typeInto(nameEl, fullName, 32);
+    clearInterval(follow);
+    await wait(150);
+    await typeInto(typed[1]?.el, typed[1]?.text ?? '', 22);
+    build($('[data-build="role"]'));
+    await wait(120);
+    build($('[data-build="desc"]'));
+    ok(l);
+
+    l = log('ui', s.ui2!);
+    await typeInto(typed[2]?.el, typed[2]?.text ?? '', 22);
+    await move('ui', $('[data-build="actions"]'), 380);
+    build($('[data-build="actions"]'));
+    await wait(200);
+    ok(l);
+    await dataJob;
+
+    grid?.classList.remove('on');
+    l = log('qa', s.qa!);
+    await move('qa', hero, 300);
+    $('.qa-scan')?.classList.add('on');
+    await wait(900);
+    ok(l, `✓ ${s.qaDone}`);
+
+    const last = document.createElement('div');
+    last.className = 'text-term-green font-bold pt-1';
+    last.textContent = `✓ ${s.done}`;
+    lines.appendChild(last);
+    await wait(550);
+
+    // ── terminar ──
+    document.querySelectorAll('[data-build]').forEach((el) => el.classList.add('is-built'));
+    if (nameEl) nameEl.textContent = fullName;
+    typed.forEach(({ el, text }) => (el.textContent = text));
+    Object.values(cursors).forEach((c) => c.classList.remove('on'));
+    document.removeEventListener('keydown', onKey);
+    ui.classList.add('closing');
+    root.classList.remove('intro');
+    $('#intro-log')?.classList.add('out');
+    setTimeout(() => ui.remove(), 500);
+  }
+</script>

@@ -1,0 +1,154 @@
+---
+import Icon from './Icon.astro';
+import { languages, useTranslations, type Lang } from '../i18n';
+import { profile } from '../data/profile';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const f = t.term.files;
+
+const links = [
+  { href: '#sobre-mi', label: t.nav.about, file: f.about },
+  { href: '#experiencia', label: t.nav.experience, file: f.experience },
+  { href: '#habilidades', label: t.nav.skills, file: f.skills },
+  { href: '#proyectos', label: t.nav.projects, file: f.projects },
+  { href: '#certificaciones', label: t.nav.certifications, file: f.certifications },
+  { href: '#contacto', label: t.nav.contact, file: f.contact },
+];
+---
+
+<header
+  id="navbar"
+  data-build="navbar"
+  class="fixed inset-x-0 top-0 z-50 bg-panel2/90 backdrop-blur-md border-b border-line"
+>
+  <div class="max-w-[90rem] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+    <a href="#inicio" class="flex items-center gap-3 shrink-0 text-sm">
+      <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span><span class="prompt-user">luis</span><span class="text-muted">@</span><span class="prompt-path">portafolio</span><span class="text-muted">:~</span></span>
+    </a>
+
+    <nav aria-label={t.nav.label} class="hidden xl:block self-stretch">
+      <ul class="flex items-stretch h-full">
+        {
+          links.map((l) => (
+            <li class="flex">
+              <a
+                href={l.href}
+                title={l.label}
+                class="flex items-center px-2.5 text-[13px] text-muted border-x border-transparent hover:text-term-green hover:bg-panel hover:border-line transition-colors whitespace-nowrap"
+              >
+                <span class="sr-only">{l.label} — </span>{l.file}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="hidden xl:flex items-center gap-3 shrink-0">
+      <div class="flex items-center gap-1 text-xs" role="group" aria-label={t.nav.language}>
+        <span class="text-muted mr-1" aria-hidden="true">lang:</span>
+        {
+          Object.entries(languages).map(([code, l]) => (
+            <a
+              href={l.path}
+              hreflang={code}
+              lang={code}
+              title={l.label}
+              aria-current={code === lang ? 'true' : undefined}
+              class:list={['px-1.5 py-0.5 rounded', code === lang ? 'bg-term-green text-ink font-bold' : 'text-muted hover:text-term-green']}
+            >
+              {code}
+            </a>
+          ))
+        }
+      </div>
+      <a href={profile.cv} download="CV-Luis-Arturo-Morales.pdf" class="btn-term !py-1.5 !px-3 text-xs">
+        <Icon name="download" class="w-3.5 h-3.5" />
+        cv.pdf
+        <span class="sr-only">— {t.nav.cv}</span>
+      </a>
+    </div>
+
+    <button
+      id="menu-btn"
+      type="button"
+      class="xl:hidden px-2 py-1 text-sm text-fg border border-line rounded hover:border-term-green hover:text-term-green"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-open-label={t.nav.openMenu}
+      data-close-label={t.nav.closeMenu}
+      aria-label={t.nav.openMenu}
+    >
+      <Icon name="menu" class="w-5 h-5 icon-open" />
+      <Icon name="x" class="w-5 h-5 icon-close hidden" />
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="xl:hidden hidden border-t border-line bg-panel">
+    <nav aria-label={t.nav.label} class="px-4 py-4 text-sm">
+      <p class="text-muted mb-2">$ ls</p>
+      <ul class="space-y-0.5">
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href} class="flex justify-between px-3 py-2.5 rounded hover:bg-panel2 hover:text-term-green">
+                <span>{l.file}</span>
+                <span class="text-muted font-sans">{l.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="border-t border-line my-4"></div>
+      <p class="text-muted mb-2">$ lang --set</p>
+      <div class="grid grid-cols-3 gap-2">
+        {
+          Object.entries(languages).map(([code, l]) => (
+            <a
+              href={l.path}
+              hreflang={code}
+              lang={code}
+              aria-current={code === lang ? 'true' : undefined}
+              class:list={['py-2 text-center rounded border', code === lang ? 'bg-term-green text-ink border-term-green font-bold' : 'border-line text-fg']}
+            >
+              {l.label}
+            </a>
+          ))
+        }
+      </div>
+      <a href={profile.cv} download="CV-Luis-Arturo-Morales.pdf" class="btn-term-primary w-full mt-4">
+        <Icon name="download" class="w-4 h-4" />
+        {t.nav.cv}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-btn')!;
+  const menu = document.getElementById('mobile-menu')!;
+
+  const setOpen = (open: boolean) => {
+    menu.classList.toggle('hidden', !open);
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', (open ? btn.dataset.closeLabel : btn.dataset.openLabel) ?? '');
+    btn.querySelector('.icon-open')?.classList.toggle('hidden', open);
+    btn.querySelector('.icon-close')?.classList.toggle('hidden', !open);
+  };
+
+  btn.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+  menu.querySelectorAll('a[href^="#"]').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+      btn.focus();
+    }
+  });
+  window.matchMedia('(min-width: 1280px)').addEventListener('change', (e) => e.matches && setOpen(false));
+</script>

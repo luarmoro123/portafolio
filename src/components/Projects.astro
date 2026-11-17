@@ -1,0 +1,124 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import Window from './Window.astro';
+import SectionHeader from './SectionHeader.astro';
+import { useTranslations, type Lang } from '../i18n';
+import { projects } from '../data/projects';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const filters = ['all', 'web', 'mobile'] as const;
+---
+
+<section id="proyectos" class="section">
+  <div class="container-page">
+    <SectionHeader
+      index="04"
+      file={t.term.files.projects}
+      title={t.projects.title}
+      subtitle={t.projects.subtitle}
+      agent="ui"
+      builtBy={t.term.builtBy}
+    />
+
+    <div class="flex flex-wrap items-center gap-2 mb-8 text-sm" role="group" aria-label={t.projects.title} data-reveal>
+      <span class="text-muted me-1" aria-hidden="true">$ ls {t.term.files.projects} {t.term.filterFlag}=</span>
+      {
+        filters.map((f) => (
+          <button
+            type="button"
+            data-filter={f}
+            aria-pressed={f === 'all' ? 'true' : 'false'}
+            class="px-3 py-1.5 rounded border border-line text-fg hover:border-term-green hover:text-term-green aria-pressed:bg-term-green aria-pressed:text-ink aria-pressed:border-term-green aria-pressed:font-bold transition-colors"
+          >
+            {t.projects.filters[f]}
+          </button>
+        ))
+      }
+    </div>
+
+    <ul class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="project-list">
+      {
+        projects.map((p) => (
+          <li data-category={p.category} data-reveal class="flex">
+            <Window
+              title={`${t.term.files.projects}${p.id}`}
+              meta={p.category}
+              class="flex flex-col w-full group hover:border-term-green/60 transition-colors"
+              bodyClass="flex flex-col flex-1"
+            >
+              <div class="relative aspect-[16/10] overflow-hidden border-b border-line">
+                <Image
+                  src={p.image}
+                  alt={p.title}
+                  widths={[400, 640, 800]}
+                  sizes="(min-width: 1024px) 360px, (min-width: 768px) 50vw, 100vw"
+                  class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                />
+                {p.inProgress && (
+                  <span class="absolute top-3 left-3 px-2 py-0.5 rounded bg-term-amber text-ink text-xs font-bold">
+                    WIP · {t.projects.inProgress}
+                  </span>
+                )}
+              </div>
+              <div class="p-5 flex flex-col flex-1">
+                <h3 class="text-xl font-bold text-white mb-2">{p.title}</h3>
+                <p class="font-sans text-muted text-sm leading-relaxed mb-4">{p.description[lang]}</p>
+                <div class="rounded border border-line bg-ink/70 p-3 mb-4 text-xs">
+                  <p class="text-muted mb-1">$ npm test</p>
+                  <p class="flex gap-1.5">
+                    <span class="text-term-green font-bold shrink-0">✓ {t.projects.testing.toUpperCase()}</span>
+                  </p>
+                  <p class="font-sans text-[13px] text-fg mt-1">{p.testing[lang]}</p>
+                </div>
+                <ul class="flex flex-wrap gap-1.5 mb-5">
+                  {p.technologies.map((tech) => (
+                    <li class="tag">{tech}</li>
+                  ))}
+                </ul>
+                <div class="mt-auto flex flex-wrap gap-3 text-sm">
+                  {p.liveUrl && (
+                    <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" class="btn-term-primary !py-1.5">
+                      <Icon name="external" class="w-4 h-4" />
+                      {t.projects.viewDemo}
+                    </a>
+                  )}
+                  {p.githubUrl ? (
+                    <a href={p.githubUrl} target="_blank" rel="noopener noreferrer" class="btn-term !py-1.5">
+                      <Icon name="github" class="w-4 h-4" />
+                      GitHub
+                    </a>
+                  ) : (
+                    <span class="inline-flex items-center gap-1.5 text-xs text-muted">
+                      <Icon name="lock" class="w-3.5 h-3.5" />
+                      {t.projects.private}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </Window>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('#project-list > li');
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      cards.forEach((c) => {
+        c.hidden = f !== 'all' && c.dataset.category !== f;
+      });
+    }),
+  );
+</script>

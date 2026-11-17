@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import Window from './Window.astro';
+import SectionHeader from './SectionHeader.astro';
+import { useTranslations, type Lang } from '../i18n';
+import { profile } from '../data/profile';
+import { projects } from '../data/projects';
+import profileImg from '../assets/profile.jpg';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const stats = [
+  { key: 'empresa', value: 'Grupo STI', label: t.about.stats.company },
+  { key: 'proyectos', value: String(projects.length), label: t.about.stats.projects },
+  { key: 'titulo', value: 'TSU', label: t.about.stats.degree },
+];
+---
+
+<section id="sobre-mi" class="section">
+  <div class="container-page">
+    <SectionHeader index="01" file={t.term.files.about} title={t.nav.about} agent="content" builtBy={t.term.builtBy} />
+
+    <div class="grid lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] gap-6">
+      <div class="space-y-6" data-reveal>
+        <Window title="profile.jpg" bodyClass="p-3">
+          <Image
+            src={profileImg}
+            alt={profile.fullName}
+            widths={[320, 480, 640]}
+            sizes="(min-width: 1024px) 340px, 90vw"
+            class="w-full h-auto rounded grayscale-[35%] contrast-110 hover:grayscale-0 transition"
+          />
+        </Window>
+        <Window title="stats.json" bodyClass="p-4 text-[13px] leading-6">
+          <p class="text-muted" aria-hidden="true">{'{'}</p>
+          <dl>
+            {
+              stats.map((s, i) => (
+                <div class="ps-4 flex flex-wrap gap-x-1.5">
+                  <dt class="text-term-cyan">"{s.label}":</dt>
+                  <dd class="text-term-amber">
+                    "{s.value}"<span class="text-muted">{i < stats.length - 1 ? ',' : ''}</span>
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+          <p class="text-muted" aria-hidden="true">{'}'}</p>
+        </Window>
+      </div>
+
+      <Window title={t.term.files.about} data-reveal class="h-fit" bodyClass="p-5 sm:p-7">
+        <p class="text-term-pink font-bold text-lg mb-3"># {t.nav.about}</p>
+        <p class="font-sans text-lg text-fg leading-relaxed mb-4">{t.about.intro}</p>
+        <p class="font-sans text-muted leading-relaxed mb-6">{t.about.description}</p>
+        <p class="text-term-pink font-bold mb-3">## focus</p>
+        <ul class="grid sm:grid-cols-2 gap-3">
+          {
+            t.about.highlights.map((h) => (
+              <li class="p-4 rounded-md border border-line bg-panel2">
+                <p class="text-sm">
+                  <span class="text-term-green">- [x]</span> <span class="font-bold text-white">{h.title}</span>
+                </p>
+                <p class="font-sans text-sm text-muted mt-1 ps-[3.2em]">{h.desc}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </Window>
+    </div>
+  </div>
+</section>

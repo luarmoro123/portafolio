@@ -1,0 +1,71 @@
+---
+import Icon from './Icon.astro';
+import Window from './Window.astro';
+import SectionHeader from './SectionHeader.astro';
+import { languages, useTranslations, type Lang } from '../i18n';
+import { profile } from '../data/profile';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<section id="contacto" class="section">
+  <div class="container-page !max-w-3xl">
+    <SectionHeader
+      index="06"
+      file={t.term.files.contact}
+      title={t.contact.title}
+      subtitle={t.contact.subtitle}
+      agent="content"
+      builtBy={t.term.builtBy}
+    />
+
+    <Window title={t.term.files.contact} meta="bash" data-reveal bodyClass="p-5 sm:p-7 text-sm sm:text-base">
+      <p class="text-muted">$ echo $EMAIL</p>
+      <p class="mb-4">
+        <span class="sr-only">{t.contact.email}: </span>
+        <a href={`mailto:${profile.email}`} class="text-term-cyan hover:text-term-green break-all underline-offset-4 hover:underline">{profile.email}</a>
+      </p>
+      <p class="text-muted">$ echo $LOCATION</p>
+      <p class="mb-6"><span class="sr-only">{t.contact.location}: </span>{t.contact.locationValue}</p>
+
+      <p class="text-muted mb-2">$ ./send-mail.sh</p>
+      <a href={`mailto:${profile.email}`} class="btn-term-primary w-full !py-3.5">
+        <Icon name="send" />
+        {t.contact.send}
+      </a>
+
+      <p class="text-muted mt-7 mb-3"># {t.contact.follow}</p>
+      <div class="flex flex-wrap gap-3">
+        <a href={profile.github} target="_blank" rel="noopener noreferrer" class="btn-term">
+          <Icon name="github" class="w-4 h-4" /> github
+        </a>
+        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" class="btn-term">
+          <Icon name="linkedin" class="w-4 h-4" /> linkedin
+        </a>
+        <a href={profile.cv} download="CV-Luis-Arturo-Morales.pdf" class="btn-term">
+          <Icon name="download" class="w-4 h-4" /> cv.pdf
+        </a>
+      </div>
+      <p class="mt-6">
+        <span class="prompt-user">luis@portafolio</span><span class="text-muted">:</span><span class="prompt-path">~</span><span class="text-muted">$</span>
+        <span class="caret-block" aria-hidden="true"></span>
+      </p>
+    </Window>
+  </div>
+</section>
+
+<footer class="mt-6 border-t border-line bg-panel2 text-[12px] text-muted">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center gap-x-5 gap-y-1">
+    <span><span class="text-term-green">⎇</span> {t.term.statusBar.branch}</span>
+    <span><span class="text-term-green">✓</span> {t.term.statusBar.errors}</span>
+    <span>{t.term.statusBar.encoding}</span>
+    <span>{languages[lang].short}</span>
+    <span class="sm:ml-auto">© {year} {profile.fullName} · {t.footer.madeWith}</span>
+  </div>
+</footer>
