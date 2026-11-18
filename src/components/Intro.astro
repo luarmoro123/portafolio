@@ -1,5 +1,6 @@
 ---
-// Animación de entrada: varios "agentes de IA" construyen la página y el nombre se teclea en la terminal.
+// Animación de entrada: un orquestador lanza 9 "agentes de IA" que construyen la página en paralelo
+// (cursores, cajas de selección tipo multijugador, log con tiempos y barra de progreso).
 // Solo corre si <html> tiene la clase `intro` (se agrega en Base.astro, salvo con "reducir movimiento").
 import { useTranslations, type Lang } from '../i18n';
 import { agents } from '../data/agents';
@@ -16,11 +17,12 @@ const config = JSON.stringify({ agents, s: t.term.intro });
 <aside id="intro-ui" data-config={config} aria-label="orchestrator — build">
   <div class="intro-grid" aria-hidden="true"></div>
   <div class="qa-scan" aria-hidden="true"></div>
+  <div id="intro-boxes" aria-hidden="true"></div>
   <div id="intro-cursors" aria-hidden="true"></div>
 
   <div
     id="intro-log"
-    class="window fixed z-[80] bottom-3 left-3 right-3 sm:left-auto sm:right-5 sm:bottom-5 sm:w-[27rem] text-[12px] sm:text-[13px]"
+    class="window fixed z-[80] bottom-3 left-3 right-3 sm:left-auto sm:right-5 sm:bottom-5 sm:w-[29rem] text-[11.5px] sm:text-[12.5px]"
   >
     <div class="window-bar">
       <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -33,9 +35,21 @@ const config = JSON.stringify({ agents, s: t.term.intro });
         {t.term.intro.skip} <kbd class="text-muted">Esc</kbd>
       </button>
     </div>
-    <div class="p-3.5 sm:p-4 max-h-[38vh] overflow-hidden">
-      <p class="text-muted"><span class="text-term-green">$</span> <span id="intro-cmd"></span></p>
-      <div id="intro-lines" class="mt-2 space-y-1" role="log" aria-live="off"></div>
+    <div class="px-3.5 sm:px-4 pt-3">
+      <p class="text-muted truncate"><span class="text-term-green">$</span> <span id="intro-cmd"></span></p>
+      <div class="mt-2 flex items-center gap-2 text-[11px] text-muted" aria-hidden="true">
+        <span id="intro-roster" class="flex items-center gap-1.5">
+          {Object.entries(agents).map(([k, a]) => <i class="roster-dot" data-roster={k} style={`--c:${a.color}`} title={a.name}></i>)}
+        </span>
+        <span class="ml-auto tabular-nums"><span id="intro-active">0</span>/{Object.keys(agents).length} {t.term.intro.active}</span>
+      </div>
+    </div>
+    <div id="intro-scroll" class="px-3.5 sm:px-4 pt-2 pb-2 max-h-[24vh] sm:max-h-[17rem] overflow-hidden">
+      <div id="intro-lines" class="space-y-[3px]" role="log" aria-live="off"></div>
+    </div>
+    <div class="px-3.5 sm:px-4 pb-3 pt-1 flex items-center gap-3 text-[11px] text-muted" aria-hidden="true">
+      <div class="intro-progress flex-1"><i id="intro-bar"></i></div>
+      <span id="intro-pct" class="tabular-nums w-9 text-right">0%</span>
     </div>
   </div>
 </aside>
@@ -58,6 +72,9 @@ const config = JSON.stringify({ agents, s: t.term.intro });
 
   async function run(ui: HTMLElement, { agents, s }: Config) {
     const $ = <T extends Element = HTMLElement>(sel: string) => document.querySelector<T>(sel) as T | null;
+    const keys = Object.keys(agents);
+    const T0 = performance.now();
+    const TOTAL_TASKS = 10;
 
     // ── control de tiempo y "saltar" ──
     let skipped = false;
@@ -105,91 +122,312 @@ const config = JSON.stringify({ agents, s: t.term.intro });
       return { el, text };
     });
 
-    // ── cursores de agentes ──
-    const cursorsBox = $('#intro-cursors')!;
-    const cursors: Record<string, HTMLElement> = {};
-    for (const [key, a] of Object.entries(agents)) {
-      const c = document.createElement('div');
-      c.className = 'agent-cursor';
-      c.innerHTML = `<svg width="18" height="22" viewBox="0 0 18 22"><path d="M1.5 1.5v17l4.6-4.4 3.3 6.8 3-1.5-3.2-6.6H16z" fill="${a.color}" stroke="#0b0f0c" stroke-width="1.4" stroke-linejoin="round"/></svg><span style="background:${a.color}">${a.name}</span>`;
-      c.style.transform = `translate(${innerWidth / 2}px, ${innerHeight + 40}px)`;
-      cursorsBox.appendChild(c);
-      cursors[key] = c;
-    }
-    const move = async (key: string, target: Element | null, ms = 480) => {
-      const c = cursors[key];
-      if (!c || !target) return;
-      const r = target.getBoundingClientRect();
-      if (r.top > innerHeight - 20 || r.bottom < 0) return; // fuera de pantalla: no se mueve
-      const x = r.left + Math.min(r.width * 0.32, 180);
-      const y = r.top + Math.min(r.height * 0.45, 46);
-      c.classList.add('on');
-      c.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
-      await wait(ms);
-    };
-
-    // ── log del orquestador ──
-    const lines = $('#intro-lines')!;
-    const log = (key: string, text: string) => {
-      const a = agents[key]!;
-      const li = document.createElement('div');
-      li.className = 'flex gap-2';
-      li.innerHTML = `<span class="shrink-0 font-bold" style="color:${a.color}">[${a.name}]</span><span class="text-fg flex-1 min-w-0"></span><span class="shrink-0 text-term-amber" data-st>…</span>`;
-      li.children[1]!.textContent = text;
-      lines.appendChild(li);
-      return li;
-    };
-    const ok = (li: HTMLElement, text = '✓') => {
-      const st = li.querySelector<HTMLElement>('[data-st]');
-      if (st) {
-        st.textContent = text;
-        st.className = 'shrink-0 text-term-green';
-      }
-    };
-    const build = (el: Element | null) => el?.classList.add('is-built');
-
     const navbar = $('#navbar');
     const hero = $('#hero-terminal');
     const panel = $('#agents-panel');
     const grid = $('.intro-grid');
+    const logWin = $('#intro-log');
+
+    // El hero empieza "sin estilo" (gris) hasta que style-agent lo pinta
+    const unstyled = [hero, panel].filter(Boolean) as HTMLElement[];
+    unstyled.forEach((el) => el.classList.add('is-unstyled'));
+
+    const visible = (r: DOMRect) => r.width > 0 && r.top < innerHeight - 20 && r.bottom > 0;
+
+    // ── cursores de agentes ──
+    const cursorsBox = $('#intro-cursors')!;
+    const cursors: Record<string, HTMLElement> = {};
+    const lr = logWin?.getBoundingClientRect();
+    const home = (i: number) => {
+      const r = logWin?.getBoundingClientRect() ?? lr;
+      if (!r) return { x: innerWidth / 2, y: innerHeight - 40 };
+      const span = Math.max(r.width - 150, 40);
+      return { x: r.left + 12 + (span * i) / (keys.length - 1), y: r.top - 34 - (i % 3) * 20 };
+    };
+    keys.forEach((key, i) => {
+      const a = agents[key]!;
+      const c = document.createElement('div');
+      c.className = 'agent-cursor';
+      c.innerHTML = `<svg width="18" height="22" viewBox="0 0 18 22"><path d="M1.5 1.5v17l4.6-4.4 3.3 6.8 3-1.5-3.2-6.6H16z" fill="${a.color}" stroke="#0b0f0c" stroke-width="1.4" stroke-linejoin="round"/></svg><span style="background:${a.color}">${a.name}<b class="agent-dots"><i></i><i></i><i></i></b></span>`;
+      const h = home(i);
+      c.style.transform = `translate(${h.x + 30}px, ${h.y + 60}px) scale(.6)`;
+      cursorsBox.appendChild(c);
+      cursors[key] = c;
+    });
+    const place = (key: string, x: number, y: number) => {
+      const c = cursors[key];
+      if (!c) return;
+      c.classList.add('on');
+      c.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+    };
+    // `ax`/`ay`: punto de anclaje dentro del elemento (0..1)
+    const move = async (key: string, target: Element | null, ms = 480, ax = 0.32, ay = 0.45) => {
+      if (!target) return;
+      const r = target.getBoundingClientRect();
+      if (!visible(r)) return; // fuera de pantalla: no se mueve
+      place(key, r.left + Math.min(r.width * ax, 260), r.top + Math.min(r.height * ay, 60));
+      await wait(ms);
+    };
+    const goHome = (key: string) => {
+      const h = home(keys.indexOf(key));
+      place(key, h.x, h.y);
+    };
+    const busy = (key: string, on: boolean) => cursors[key]?.classList.toggle('busy', on);
+
+    // Onda de "clic" en la posición actual del cursor
+    const ping = (key: string) => {
+      const c = cursors[key];
+      if (!c || skipped) return;
+      const m = /translate\(([-\d.]+)px, ([-\d.]+)px\)/.exec(c.style.transform);
+      if (!m) return;
+      const p = document.createElement('div');
+      p.className = 'agent-ping';
+      p.style.cssText = `left:${m[1]}px;top:${m[2]}px;--c:${agents[key]!.color}`;
+      cursorsBox.appendChild(p);
+      setTimeout(() => p.remove(), 700);
+    };
+
+    // ── cajas de selección (estilo editor multijugador) ──
+    const boxesBox = $('#intro-boxes')!;
+    const boxes = new Map<HTMLElement, Element>();
+    const focus = (key: string, target: Element | null, label = agents[key]!.name) => {
+      if (!target || skipped) return null;
+      const b = document.createElement('div');
+      b.className = 'agent-box';
+      b.style.setProperty('--c', agents[key]!.color);
+      b.innerHTML = `<span></span>`;
+      b.firstElementChild!.textContent = label;
+      boxesBox.appendChild(b);
+      boxes.set(b, target);
+      requestAnimationFrame(() => b.classList.add('on'));
+      return b;
+    };
+    const release = (b: HTMLElement | null) => {
+      if (!b) return;
+      b.classList.remove('on');
+      setTimeout(() => {
+        boxes.delete(b);
+        b.remove();
+      }, 300);
+    };
+    let raf = 0;
+    const track = () => {
+      for (const [b, el] of boxes) {
+        const r = el.getBoundingClientRect();
+        b.style.transform = `translate(${r.left - 3}px, ${r.top - 3}px)`;
+        b.style.width = `${r.width + 6}px`;
+        b.style.height = `${r.height + 6}px`;
+        b.style.visibility = visible(r) ? '' : 'hidden';
+      }
+      raf = requestAnimationFrame(track);
+    };
+    raf = requestAnimationFrame(track);
+
+    // ── roster y progreso ──
+    const activeEl = $('#intro-active');
+    const setState = (key: string, st: 'active' | 'done') => {
+      const d = document.querySelector(`[data-roster="${key}"]`);
+      d?.classList.remove('active', 'done');
+      d?.classList.add(st);
+      if (activeEl) activeEl.textContent = String(document.querySelectorAll('.roster-dot.active').length);
+      if (st === 'done') {
+        busy(key, false);
+        document.querySelector(`[data-agent-row="${key}"]`)?.classList.add('is-done');
+      } else busy(key, true);
+    };
+    let doneTasks = 0;
+    const bar = $('#intro-bar');
+    const pct = $('#intro-pct');
+    const progress = (n: number) => {
+      const p = Math.min(100, Math.round((n / TOTAL_TASKS) * 100));
+      if (bar) bar.style.width = `${p}%`;
+      if (pct) pct.textContent = `${p}%`;
+    };
+
+    // ── log del orquestador ──
+    const scroller = $('#intro-scroll')!;
+    const lines = $('#intro-lines')!;
+    const stamp = () => ((performance.now() - T0) / 1000).toFixed(2).padStart(5, '0');
+    const append = (el: HTMLElement) => {
+      lines.appendChild(el);
+      scroller.scrollTo({ top: scroller.scrollHeight, behavior: skipped ? 'auto' : 'smooth' });
+    };
+    const SPIN = '⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏';
+    let frame = 0;
+    const spinner = setInterval(() => {
+      frame = (frame + 1) % SPIN.length;
+      document.querySelectorAll<HTMLElement>('#intro-lines [data-st].spin').forEach((el) => (el.textContent = SPIN[frame]!));
+    }, 80);
+
+    const sys = (text: string, cls = 'text-muted') => {
+      const li = document.createElement('div');
+      li.className = `intro-line ${cls}`;
+      li.innerHTML = `<span class="intro-ts">${stamp()}</span><span class="flex-1 min-w-0 truncate"></span>`;
+      li.children[1]!.textContent = text;
+      append(li);
+      return li;
+    };
+    const log = (key: string, text: string) => {
+      const a = agents[key]!;
+      const li = document.createElement('div');
+      li.className = 'intro-line';
+      li.innerHTML = `<span class="intro-ts">${stamp()}</span><span class="shrink-0 font-bold" style="color:${a.color}">[${a.name}]</span><span class="text-fg flex-1 min-w-0 truncate"></span><span class="shrink-0 text-term-amber spin" data-st>${SPIN[0]}</span>`;
+      li.children[2]!.textContent = text;
+      append(li);
+      setState(key, 'active');
+      return li;
+    };
+    const sub = (key: string, text: string, pending = false) => {
+      const li = document.createElement('div');
+      li.className = 'intro-line intro-sub';
+      li.innerHTML = `<span class="intro-ts"></span><span class="shrink-0" style="color:${agents[key]!.color}">└─</span><span class="text-muted flex-1 min-w-0 truncate"></span><span class="shrink-0 ${pending ? 'text-term-amber spin' : 'text-term-green'}" data-st>${pending ? SPIN[0] : ''}</span>`;
+      li.children[2]!.textContent = text;
+      append(li);
+      return li;
+    };
+    const setStatus = (li: HTMLElement, text: string, cls = 'text-term-green') => {
+      const st = li.querySelector<HTMLElement>('[data-st]');
+      if (st) {
+        st.textContent = text;
+        st.className = `shrink-0 ${cls}`;
+      }
+    };
+    const ok = (li: HTMLElement, key: string, text = '✓') => {
+      setStatus(li, text);
+      setState(key, 'done');
+      progress(++doneTasks);
+    };
+    const build = (el: Element | null) => el?.classList.add('is-built');
 
     // ── secuencia ──
-    await wait(200);
-    const cmd = typeInto($('#intro-cmd'), s.command!, 14);
+    await wait(150);
+    await typeInto($('#intro-cmd'), s.command!, 12);
+    await wait(120);
 
+    // el orquestador lanza los agentes: salen del log y se forman encima
+    sys(`⚡ ${s.spawn} ×${keys.length}`, 'text-term-amber');
+    for (const [i, key] of keys.entries()) {
+      const h = home(i);
+      place(key, h.x, h.y);
+      await wait(45);
+    }
+    await wait(250);
+
+    // planner-agent: estructura
     let l = log('planner', s.planner!);
     grid?.classList.add('on');
-    await move('planner', $('#inicio .container-page'), 380);
-    await cmd;
-    ok(l);
+    const layoutBox = focus('planner', $('#inicio .container-page'), 'layout · grid 2fr/1fr');
+    await move('planner', $('#inicio .container-page'), 380, 0.5, 0.2);
+    ping('planner');
+    sub('planner', 'sections[7] → hero · about · experience · skills · projects · certs · contact');
+    await wait(320);
+    ok(l, 'planner');
+    release(layoutBox);
+    goHome('planner');
 
+    // ui-agent: navbar
     l = log('ui', s.ui1!);
-    await move('ui', navbar, 380);
+    let box = focus('ui', navbar, '<Navbar />');
+    await move('ui', navbar, 380, 0.25, 0.5);
+    ping('ui');
     build(navbar);
-    await wait(200);
-    ok(l);
+    sub('ui', 'Navbar.astro → 6 links · lang switch');
+    await wait(220);
+    ok(l, 'ui');
+    release(box);
 
-    l = log('content', s.content!);
-    await move('content', hero, 380);
+    // content-agent: hero (tarea larga); los demás trabajan en paralelo
+    const lc = log('content', s.content!);
+    const heroBox = focus('content', hero, '<Hero />');
+    await move('content', hero, 380, 0.2, 0.15);
+    ping('content');
     build(hero);
     await wait(150);
 
-    // data-agent trabaja en paralelo mientras content-agent escribe
-    const dataJob = (async () => {
-      await wait(350);
-      const ld = log('data', s.data!);
-      await move('data', panel, 420);
-      build(panel);
-      await wait(300);
-      ok(ld);
-    })();
+    const jobs: Promise<void>[] = [];
+
+    // data-agent: panel de agentes
+    jobs.push(
+      (async () => {
+        await wait(300);
+        const ld = log('data', s.data!);
+        const b = focus('data', panel, 'agents.log');
+        await move('data', panel, 420, 0.4, 0.2);
+        ping('data');
+        build(panel);
+        // filas de agentes que ya terminaron
+        keys.forEach((k) => {
+          if (document.querySelector(`[data-roster="${k}"].done`))
+            document.querySelector(`[data-agent-row="${k}"]`)?.classList.add('is-done');
+        });
+        sub('data', `agents.ts → ${keys.length} rows`);
+        await wait(380);
+        ok(ld, 'data');
+        release(b);
+        goHome('data');
+      })(),
+    );
+
+    // style-agent: pinta el hero (de gris a color)
+    jobs.push(
+      (async () => {
+        await wait(850);
+        const ls = log('style', s.style!);
+        await move('style', hero, 380, 0.85, 0.12);
+        const b = focus('style', hero, 'theme.dark');
+        const sl = sub('style', 'tokens → --term-green · JetBrains Mono', true);
+        await wait(350);
+        ping('style');
+        unstyled.forEach((el) => el.classList.remove('is-unstyled'));
+        await wait(450);
+        setStatus(sl, '✓');
+        ok(ls, 'style');
+        release(b);
+        goHome('style');
+      })(),
+    );
+
+    // i18n-agent: traducciones
+    jobs.push(
+      (async () => {
+        await wait(1400);
+        const li = log('i18n', s.i18n!);
+        await move('i18n', navbar, 360, 0.92, 0.5);
+        ping('i18n');
+        const sl = sub('i18n', 'es', true);
+        const txt = sl.children[2]!;
+        for (const code of ['es ✓', 'es ✓ · en ✓', 'es ✓ · en ✓ · fr ✓']) {
+          txt.textContent = `i18n/{es,en,fr}.ts → ${code}`;
+          await wait(260);
+        }
+        setStatus(sl, '✓');
+        ok(li, 'i18n');
+        goHome('i18n');
+      })(),
+    );
+
+    // security-agent: auditoría de dependencias
+    jobs.push(
+      (async () => {
+        await wait(1900);
+        const lsec = log('security', s.security!);
+        await move('security', logWin, 300, 0.7, 0.35);
+        for (const dep of ['astro', 'tailwindcss', '@astrojs/sitemap']) {
+          const d = sub('security', `${dep}`, true);
+          await wait(230);
+          setStatus(d, '✓');
+        }
+        ok(lsec, 'security');
+        goHome('security');
+      })(),
+    );
 
     await typeInto(typed[0]?.el, typed[0]?.text ?? '', 34);
     await wait(120);
 
     // el cursor del agente sigue al cursor de texto mientras teclea el nombre
     const caret = nameEl?.parentElement?.querySelector('.caret-block') ?? null;
-    const follow = setInterval(() => void move('content', caret, 0), 160);
+    const follow = setInterval(() => void move('content', caret, 0, 1, 0.6), 140);
     await typeInto(nameEl, fullName, 32);
     clearInterval(follow);
     await wait(150);
@@ -197,34 +435,71 @@ const config = JSON.stringify({ agents, s: t.term.intro });
     build($('[data-build="role"]'));
     await wait(120);
     build($('[data-build="desc"]'));
-    ok(l);
+    sub('content', 'whoami · role · description → 3 blocks');
+    ok(lc, 'content');
+    release(heroBox);
+    goHome('content');
 
+    // ui-agent: botones de acción
     l = log('ui', s.ui2!);
     await typeInto(typed[2]?.el, typed[2]?.text ?? '', 22);
-    await move('ui', $('[data-build="actions"]'), 380);
-    build($('[data-build="actions"]'));
-    await wait(200);
-    ok(l);
-    await dataJob;
+    const actions = $('[data-build="actions"]');
+    box = focus('ui', actions, '<Actions />');
+    await move('ui', actions, 380, 0.2, 0.5);
+    ping('ui');
+    build(actions);
+    await wait(220);
+    ok(l, 'ui');
+    release(box);
+    goHome('ui');
+    await Promise.all(jobs);
 
+    // perf-agent: optimización con contador
+    l = log('perf', s.perf!);
+    await move('perf', hero, 300, 0.6, 0.85);
+    const pl = sub('perf', 'css · fonts · images → minify · lazy', true);
+    for (let p = 0; p <= 100 && !skipped; p += 10) {
+      setStatus(l, `${p}%`, 'text-term-amber');
+      await wait(55);
+    }
+    setStatus(pl, '✓');
+    ok(l, 'perf');
+    goHome('perf');
+
+    // qa-agent: escaneo de accesibilidad y foco en elementos interactivos
     grid?.classList.remove('on');
     l = log('qa', s.qa!);
-    await move('qa', hero, 300);
+    await move('qa', hero, 300, 0.4, 0.5);
     $('.qa-scan')?.classList.add('on');
-    await wait(900);
-    ok(l, `✓ ${s.qaDone}`);
+    const targets = [...document.querySelectorAll('#navbar a, #hero-terminal a, #hero-terminal h1')]
+      .filter((el) => visible(el.getBoundingClientRect()))
+      .slice(0, 8);
+    const qaBoxes: (HTMLElement | null)[] = [];
+    for (const el of targets) {
+      qaBoxes.push(focus('qa', el, '✓ a11y'));
+      await wait(70);
+    }
+    sub('qa', `axe-core → ${targets.length} nodes · 0 violations`);
+    await wait(450);
+    qaBoxes.forEach(release);
+    ok(l, 'qa', `✓ ${s.qaDone}`);
 
-    const last = document.createElement('div');
-    last.className = 'text-term-green font-bold pt-1';
-    last.textContent = `✓ ${s.done}`;
-    lines.appendChild(last);
-    await wait(550);
+    const secs = ((performance.now() - T0) / 1000).toFixed(2);
+    sys(`✓ ${s.done}`, 'text-term-green font-bold');
+    sys(`${keys.length} ${s.agentsLabel} · ${TOTAL_TASKS} ${s.tasksLabel} · ${secs}s`);
+    keys.forEach((k) => goHome(k));
+    await wait(650);
 
     // ── terminar ──
+    clearInterval(spinner);
+    cancelAnimationFrame(raf);
     document.querySelectorAll('[data-build]').forEach((el) => el.classList.add('is-built'));
+    document.querySelectorAll('[data-agent-row]').forEach((el) => el.classList.add('is-done'));
+    unstyled.forEach((el) => el.classList.remove('is-unstyled'));
     if (nameEl) nameEl.textContent = fullName;
     typed.forEach(({ el, text }) => (el.textContent = text));
-    Object.values(cursors).forEach((c) => c.classList.remove('on'));
+    Object.values(cursors).forEach((c) => c.classList.remove('on', 'busy'));
+    boxes.forEach((_, b) => b.remove());
     document.removeEventListener('keydown', onKey);
     ui.classList.add('closing');
     root.classList.remove('intro');

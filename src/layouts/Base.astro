@@ -72,7 +72,7 @@ const jsonLd = {
         // Intro de agentes en cada visita, salvo si el usuario pidió reducir el movimiento.
         if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           r.classList.add('intro');
-          setTimeout(function () { r.classList.remove('intro'); }, 15000); // seguro por si algo falla
+          setTimeout(function () { r.classList.remove('intro'); }, 20000); // seguro por si algo falla
         }
       })();
     </script>
