@@ -11,7 +11,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const prompt = '<span class="prompt-user">luis@portafolio</span><span class="text-muted">:</span><span class="prompt-path">~</span><span class="text-muted">$</span>';
-const agentRows = (Object.keys(agents) as AgentKey[]).map((k) => ({ ...agents[k], text: t.term.agents[k] }));
+const agentRows = (Object.keys(agents) as AgentKey[]).map((k) => ({ ...agents[k], key: k, text: t.term.agents[k] }));
 ---
 
 <section id="inicio" class="relative min-h-[100svh] flex items-center pt-20 pb-12">
@@ -36,11 +36,11 @@ const agentRows = (Object.keys(agents) as AgentKey[]).map((k) => ({ ...agents[k]
     </Window>
 
     <Window title={t.term.agentsTitle} meta="● live" build="agents" id="agents-panel" bodyClass="p-4 sm:p-5 text-[13px]">
-      <ul class="space-y-2.5">
+      <ul class="space-y-2">
         {
           agentRows.map((a) => (
-            <li class="flex items-baseline gap-2" data-agent-row>
-              <span class="text-term-green" aria-hidden="true">✓</span>
+            <li class="flex items-baseline gap-2" data-agent-row={a.key}>
+              <span class="text-term-green" data-row-check aria-hidden="true">✓</span>
               <span class="font-bold shrink-0" style={`color:${a.color}`}>{a.name}</span>
               <span class="text-muted truncate">{a.text}</span>
             </li>

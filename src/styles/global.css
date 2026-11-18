@@ -174,6 +174,85 @@
   100% { opacity: 0; transform: translateY(100vh); }
 }
 
+/* Indicador de "pensando" en la etiqueta del cursor */
+.agent-dots { display: none; margin-left: 5px; gap: 2px; vertical-align: middle; }
+.agent-cursor.busy .agent-dots { display: inline-flex; }
+.agent-dots i {
+  width: 3px; height: 3px; border-radius: 50%; background: #0b0f0c;
+  animation: dot-bounce 0.9s ease-in-out infinite;
+}
+.agent-dots i:nth-child(2) { animation-delay: 0.15s; }
+.agent-dots i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes dot-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
+  30% { transform: translateY(-2px); opacity: 1; }
+}
+
+/* Onda de clic */
+.agent-ping {
+  position: fixed; z-index: 69; pointer-events: none;
+  width: 34px; height: 34px; margin: -15px 0 0 -15px; border-radius: 50%;
+  border: 2px solid var(--c);
+  animation: ping-out 0.65s ease-out forwards;
+}
+@keyframes ping-out {
+  from { transform: scale(0.2); opacity: 1; }
+  to { transform: scale(1.6); opacity: 0; }
+}
+
+/* Caja de selección de cada agente */
+.agent-box {
+  position: fixed; top: 0; left: 0; z-index: 60; pointer-events: none;
+  border: 1.5px solid var(--c); border-radius: 8px;
+  background: color-mix(in srgb, var(--c) 6%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--c) 25%, transparent), 0 0 24px -6px var(--c);
+  opacity: 0; transition: opacity 0.25s ease;
+}
+.agent-box.on { opacity: 1; }
+.agent-box span {
+  position: absolute; left: -1.5px; top: 0; transform: translateY(-100%);
+  padding: 1px 7px; border-radius: 5px 5px 0 0; background: var(--c);
+  font-size: 10.5px; font-weight: 700; color: #0b0f0c; white-space: nowrap;
+}
+
+/* Hero "sin estilo" hasta que style-agent lo pinta */
+.intro #hero-terminal, .intro #agents-panel { transition: filter 0.8s ease; }
+.intro .is-unstyled.is-built { filter: grayscale(1) brightness(0.85); }
+
+/* Filas del panel de agentes: se encienden cuando su agente termina */
+.intro [data-agent-row]:not(.is-done) { opacity: 0.25; }
+.intro [data-agent-row]:not(.is-done) [data-row-check] { visibility: hidden; }
+.intro [data-agent-row].is-done { animation: row-in 0.45s ease; }
+@keyframes row-in {
+  0% { opacity: 0.25; transform: translateX(-6px); text-shadow: none; }
+  40% { opacity: 1; text-shadow: 0 0 10px currentColor; }
+  100% { opacity: 1; transform: none; }
+}
+
+/* Log del orquestador */
+.intro-line { display: flex; gap: 0.5rem; align-items: baseline; white-space: nowrap; animation: line-in 0.25s ease; }
+.intro-ts { flex-shrink: 0; width: 2.6rem; color: #4b5e51; font-variant-numeric: tabular-nums; }
+.intro-sub { font-size: 0.92em; }
+@keyframes line-in {
+  from { opacity: 0; transform: translateY(4px); }
+}
+.roster-dot {
+  display: block; width: 8px; height: 8px; border-radius: 50%;
+  border: 1.5px solid var(--c); opacity: 0.35; transition: opacity 0.3s, background 0.3s, box-shadow 0.3s;
+}
+.roster-dot.active { opacity: 1; box-shadow: 0 0 8px var(--c); animation: roster-pulse 0.9s ease-in-out infinite; }
+.roster-dot.done { opacity: 1; background: var(--c); }
+@keyframes roster-pulse { 50% { transform: scale(1.35); } }
+.intro-progress { height: 4px; border-radius: 4px; background: #213027; overflow: hidden; }
+.intro-progress i {
+  display: block; height: 100%; width: 0;
+  background: linear-gradient(90deg, #fbbf24, #67e8f9, #f472b6, #a78bfa, #4ade80);
+  background-size: 300% 100%;
+  transition: width 0.4s cubic-bezier(0.3, 0.8, 0.25, 1);
+  animation: bar-flow 2s linear infinite;
+}
+@keyframes bar-flow { to { background-position: -300% 0; } }
+
 #intro-log { transition: opacity 0.4s ease, transform 0.4s ease; }
 #intro-log.out { opacity: 0; transform: translateY(12px); }
 
